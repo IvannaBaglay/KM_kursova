@@ -11,13 +11,34 @@ public:
     {
         return isStation;
     }
+    /*
+    add function for write weight from this node to another node
+    void SetLenght()
+    {
+
+    }
+    */
 private:
 
 protected:
-    bool isAble;
-    bool isStation;
+    /*value for draw*/
+
+    bool isStation; // maybe change on enum
     int lenght;
 
+    /*value for algorithm*/
+    int positionX;
+    int positionY;
+    bool isAble; // change on enum
+    /*
+    struct {
+    int predecessor;
+    int lenght;
+    enum (permanent, tentative) label;
+    }
+    
+    
+    */
 };
 
 #endif // !_NODE_H_
