@@ -18,6 +18,14 @@ protected:
     }
 private:
     /*Matrix of Node and Channel (Node*Node) how node are connected*/
+    /*struct for result
+    struct {
+    int predecessor;
+    int lenght;
+    enum (permanent, tentative) label;
+    }
+    
+    */
 };
 
 #endif // !_ALGORITHM_H_
