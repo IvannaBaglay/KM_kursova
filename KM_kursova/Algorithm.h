@@ -4,6 +4,8 @@
 #include "Node.h"
 #include "Channel.h"
 
+
+
 class Algorithm {
 public:
     Algorithm()
@@ -16,9 +18,18 @@ protected:
     {
 
     }
+
+    /*
+    function for finding weight channel between two Node
+    int FindWeight(Node1, Node2, vector<Node> vectorOfNode)
+        {
+
+        }
+    */
 private:
-    /*Matrix of Node and Channel (Node*Node) how node are connected*/
-    /*struct for result
+    /*vector of struct we fill in constructor from channel and node */
+    /*
+    or we can add all paramets from struct into Node and working with vector of Node
     struct {
     int predecessor;
     int lenght;
