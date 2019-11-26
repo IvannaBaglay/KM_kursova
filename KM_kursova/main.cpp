@@ -1,11 +1,22 @@
-#include <SFML/Graphics.hpp>
+#include "function_interface.h"
+
+sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!", sf::Style::Fullscreen);
+sf::CircleShape shape(100.f);
+
+void Draw()
+{
+    /*
+    Node.Draw();
+    Channel.Draw();
+    Package.Draw();
+    */
+    window.draw(shape);
+}
 
 int main()
-{
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
+{  
+    
     shape.setFillColor(sf::Color::Green);
-
     while (window.isOpen())
     {
         sf::Event event;
@@ -15,9 +26,10 @@ int main()
                 window.close();
         }
 
-        window.clear();
-        window.draw(shape);
+        window.clear(sf::Color(255, 255, 255));
+        Draw();
         window.display();
+
     }
 
     return 0;

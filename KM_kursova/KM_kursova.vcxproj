@@ -140,11 +140,14 @@
   <ItemGroup>
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="function_interface.cpp" />
+    <ClCompile Include="function_interface.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Package.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithm.h" />
     <ClInclude Include="Channel.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Package.h" />

@@ -10,5 +10,5 @@ protected:
 
 };
 
-#endif // !_NODE_H_gfgfgf
+#endif // !_NODE_H_
 #pragma once
