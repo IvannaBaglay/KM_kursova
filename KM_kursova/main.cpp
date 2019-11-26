@@ -13,6 +13,20 @@ void Draw()
     window.draw(shape);
 }
 
+void WorkEvent()
+{
+    /*
+    ClickMouse
+    Right botton on free place create new node linker 
+    Left botton on free place create new station
+    right click on node/station to select
+    
+    Keyboard
+    Click C when we have 2 select node create Channel 
+    and display menu for input weight of channel
+    */
+}
+
 int main()
 {  
     
