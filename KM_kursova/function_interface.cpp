@@ -4,9 +4,3 @@ void ClickKey()
 {
 
 }
-void WorkEvent()
-{
-    /*
-    
-    */
-}
