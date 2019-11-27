@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Algorithm.h" />
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="global_value.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Package.h" />
   </ItemGroup>
