@@ -10,14 +10,9 @@ class Node {
 public:
     Node(sf::Vector2i positionOfMouse) 
     {
-        
-        std::cout << "X:" << positionOfMouse.x << std::endl;
-        std::cout << "Y:" << positionOfMouse.y << std::endl;
         positionX = positionOfMouse.x  ;
-        positionY = positionOfMouse.y;
-        std::cout << "Xs:" << positionX << std::endl;
-        std::cout << "Ys:" << positionY << std::endl;
-        nodeCircle.setRadius(10.f);
+        positionY = positionOfMouse.y;  
+        nodeCircle.setRadius(radius);
         nodeCircle.setPosition(positionOfMouse.x, positionOfMouse.y);
         nodeCircle.setFillColor(sf::Color::Black);
         isAble = true;      
@@ -38,6 +33,21 @@ public:
     {
         return nodeCircle;
     }
+    const sf::Vector2i get_position() const
+    {
+        return sf::Vector2i(positionX, positionY);
+    }
+    void set_colorNode(sf::Color color) {
+        nodeCircle.setFillColor(color);
+    }
+    bool IsCollision(sf::Vector2i position)
+    {
+        if (sqrt((position.x - positionX) * (position.x - positionX) + (position.y - positionY) * (position.y - positionY)) <= 2 * radius + 1)
+        {            
+            return true;
+        }
+        return false;
+    }
     /*
     add function for write weight from this node to another node
     void SetLenght()
@@ -53,6 +63,7 @@ protected:
     int positionX;
     int positionY;
     sf::CircleShape nodeCircle;
+    float radius = 10;
 
     /*value for algorithm*/
     int lenght;

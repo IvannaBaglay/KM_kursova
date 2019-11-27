@@ -25,8 +25,12 @@ void ClickMouseBottom(sf::Event& event)
     case sf::Event::MouseButtonPressed:
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            listOfNode.push_back(new Node(sf::Mouse::getPosition())); break;
-        }        
+            listOfNode.push_back(new Node(sf::Mouse::getPosition()));
+        }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        {
+            CollisionMouseAndNodes(listOfNode, sf::Mouse::getPosition());
+        }
     default:
         break;
     }
