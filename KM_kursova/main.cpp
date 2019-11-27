@@ -9,12 +9,24 @@ sf::CircleShape shape(100.f);
 static sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!", sf::Style::Fullscreen);
 
 std::vector<Node*> listOfNode;
+std::vector<Channel*> listOfChannel;
 
 void ClickKey(sf::Event& event)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
         window.close();
+    }
+    switch (event.type)
+    {
+    case sf::Event::KeyPressed:
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+        {
+            CreateChannel(listOfChannel, listOfNode);
+        }
+        break;
+    default:
+        break;
     }
 }
 
@@ -31,6 +43,7 @@ void ClickMouseBottom(sf::Event& event)
         {
             CollisionMouseAndNodes(listOfNode, sf::Mouse::getPosition());
         }
+        break;
     default:
         break;
     }
@@ -89,6 +102,15 @@ int main()
         Draw();
         window.display();
 
+    }
+    for (auto it : listOfNode)
+    {
+        std::cout << it->get_index();
+    }
+    for (auto it : listOfChannel)
+    {
+        std::cout << it->get_node1_index();
+        std::cout << it->get_node2_index();
     }
 
     return 0;

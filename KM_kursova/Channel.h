@@ -5,14 +5,25 @@
 #define HALF_DUPLEX 1
 
 #include "Node.h"
+#include <vector>
 
 class Channel {
 public:
+    Channel() 
+    {
+
+    }
+    Channel(Node* node1, Node* node2)
+    {
+        std::cout << "Constructor Channel\n";
+        node1_ = node1;
+        node2_ = node2;
+    }
     const unsigned int get_weight() const {
-        return weight;
+        return weight_;
     }
     const unsigned int get_type() const {
-        return type;
+        return type_;
     }
     /*
     function for display info when we select channel with mouse
@@ -21,15 +32,35 @@ public:
     {
         /*draw line between node1 node2 (we have position)*/
     }
+    const int get_node1_index() const
+    {
+        return node1_->get_index();
+    }
+    const int get_node2_index() const
+    {
+        return node2_->get_index();
+    }
+    bool WeHaveChannelBetween(Node* node1, Node* node2)
+    {
+        if (this->node1_->get_index() == node1->get_index() && this->node2_->get_index() == node2->get_index())
+        {
+            return true;
+        }
+        if (this->node2_->get_index() == node1->get_index() && this->node1_->get_index() == node2->get_index())
+        {
+            return true;
+        }
+        return false;
+    }
     /*
     
     */
 protected:
 
 private:
-    Node node1, node2;
-    int weight;
-    unsigned int type;
+    Node* node1_,* node2_;
+    int weight_;
+    unsigned int type_;
 };
 
 
