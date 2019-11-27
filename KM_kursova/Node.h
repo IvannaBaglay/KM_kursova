@@ -15,7 +15,8 @@ public:
         nodeCircle.setRadius(radius);
         nodeCircle.setPosition(positionOfMouse.x, positionOfMouse.y);
         nodeCircle.setFillColor(sf::Color::Black);
-        isAble = true;      
+        isAble = true;    
+        isSelected = false;
     }
     bool IsAble()
     {
@@ -48,6 +49,19 @@ public:
         }
         return false;
     }
+    void set_isSelected()
+    {
+        if (isSelected)
+        {
+            nodeCircle.setFillColor(sf::Color::Black);
+        }
+        else
+        {
+            nodeCircle.setFillColor(sf::Color::Green);
+            
+        }
+        isSelected = !isSelected;
+    }
     /*
     add function for write weight from this node to another node
     void SetLenght()
@@ -64,6 +78,7 @@ protected:
     int positionY;
     sf::CircleShape nodeCircle;
     float radius = 10;
+    bool isSelected;
 
     /*value for algorithm*/
     int lenght;

@@ -7,7 +7,7 @@ void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePo
     {
         if (it->IsCollision(mousePosition))
         {
-            it->set_colorNode(sf::Color::Green);
+            it->set_isSelected();
         }
     }
 }
