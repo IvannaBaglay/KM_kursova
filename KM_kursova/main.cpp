@@ -4,12 +4,18 @@
 #include "global_value.h"
 #include "Node.h"
 #include "Channel.h"
+#include "Text.h"
+
+#define WEIGHT_RECTANGLE 100.0;
 
 sf::CircleShape shape(100.f);
 static sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
+std::vector<Text*> listOfText;
+
+bool isVisibleText = false;
 
 void ClickKey(sf::Event& event)
 {
@@ -23,6 +29,7 @@ void ClickKey(sf::Event& event)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
             CreateChannel(listOfChannel, listOfNode);
+            isVisibleText = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
@@ -66,7 +73,15 @@ void Draw()
     {
         window.draw(it->get_nodeCircle());
     }
-    
+    if (isVisibleText)
+    {
+        for (auto it : listOfText)
+        {
+
+            window.draw(it->get_rectangle());
+            window.draw(it->get_text());
+        }
+    }
     //Package.Draw();
     
     
@@ -88,12 +103,16 @@ void WorkEvent(sf::Event& event)
     */
 }
 
-
+void InputText()
+{
+    listOfText.push_back(new Text("3", 10, 10));
+    listOfText.push_back(new Text("3", 110, 10));
+    listOfText.push_back(new Text("3", 210, 10));
+}
 
 int main()
 {  
-    
-    shape.setFillColor(sf::Color::Green);
+    InputText();
     while (window.isOpen())
     {
         sf::Event event;
