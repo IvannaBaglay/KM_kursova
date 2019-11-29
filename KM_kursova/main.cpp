@@ -29,9 +29,9 @@ void ClickKey(sf::Event& event)
     case sf::Event::KeyPressed:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
-            isVisibleText = true;
-            CreateChannel(listOfChannel, listOfNode);
-            //isVisibleText = false;
+           
+            CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());
+            
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
@@ -75,20 +75,16 @@ void Draw()
     {
         window.draw(it->get_nodeCircle());
     }
-    if (isVisibleText)
+    for (auto it : listOfTextOfWeightChannel)
     {
-        for (auto it : listOfTextOfWeightChannel)
-        {
 
-            window.draw(it->get_rectangle());
-            window.draw(it->get_text());
-        }
-        for (auto it : listOfTextOfTypeChannel)
-        {
-            window.draw(it->get_rectangle());
-            window.draw(it->get_text());
-        }
-
+        window.draw(it->get_rectangle());
+        window.draw(it->get_text());
+    }
+    for (auto it : listOfTextOfTypeChannel)
+    {
+        window.draw(it->get_rectangle());
+        window.draw(it->get_text());
     }
     //Package.Draw();
     

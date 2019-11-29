@@ -18,13 +18,28 @@ void CollisonMouseAndChannel(std::vector <Channel*> & listOfChannel, sf::Vector2
 
 }
 
-int CollisonWithRectangle(std::vector<Text*>& listOfTextOfWeightChannel, sf::Vector2i mousePosition)
+bool CollisonWithRectangle(int& weight, std::vector<Text*>& listOfText, sf::Vector2i mousePosition)
 {
-
+    for (auto it : listOfText)
+    {
+        if (it->IsCollision(mousePosition))
+        {
+            weight = 10;
+            return true;
+        }
+    }
+    return false;
 }
 
-void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode) 
+void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode, std::vector<Text*>& listOfTextOfTypeChannel, std::vector<Text*>& listOfTextOfWeightChannel, sf::Vector2i mousePosition)
 {
+    int weightOfChannel = -1;
+    int typeOfChannel = -1;
+    /*
+    do 
+    {
+
+    } while (!CollisonWithRectangle(weightOfChannel, listOfTextOfWeightChannel, mousePosition));*/
     std::vector<Node*> listOfSelectNode;
     for (auto it : listOfNode)
     {

@@ -18,16 +18,16 @@ public:
         std::cout << "Constructor Channel between \n";
         node1_ = node1;
         node2_ = node2;
-        weight_ = x;
+        //weight_ = x;
         
-        /*
+        
         std::cout << "node1 " << node1->get_index();
         std::cout << " node2 " << node2->get_index();
         std::cout << "input weight: ";
         std::cin >> weight_;
         std::cout << "input type 0-DUPLEX, 1-HALF_DUPLEX: ";
         std::cin >> type_;
-        */
+        
     }
     const unsigned int get_weight() const {
         return weight_;
