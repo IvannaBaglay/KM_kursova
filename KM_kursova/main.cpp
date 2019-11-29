@@ -52,8 +52,14 @@ void ClickMouseBottom(sf::Event& event)
 
 void Draw()
 {
+
+
+    for (auto it : listOfChannel)
+    {
+        window.draw(it->get_line(), 2, sf::Lines);
+    }
     for (auto it : listOfNode)
-    {    
+    {
         window.draw(it->get_nodeCircle());
     }
     /*
@@ -97,7 +103,7 @@ int main()
 
         }
 
-        window.clear(sf::Color(255, 255, 255));
+        window.clear(sf::Color::White);
         
         Draw();
         window.display();

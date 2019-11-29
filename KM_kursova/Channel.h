@@ -28,8 +28,16 @@ public:
     /*
     function for display info when we select channel with mouse
     */
-    void Draw() 
+    sf::Vertex* get_line()
     {
+        sf::Vertex line[] =
+        {
+            sf::Vertex(sf::Vector2f(node1_->get_position())),
+            sf::Vertex(sf::Vector2f(node2_->get_position())),
+        };
+        line[0].color = sf::Color::Black;
+        line[1].color = sf::Color::Black;
+        return line;
         /*draw line between node1 node2 (we have position)*/
     }
     const int get_node1_index() const

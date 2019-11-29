@@ -16,9 +16,9 @@ public:
     }
     Node(sf::Vector2i positionOfMouse) 
     {
-        positionX_ = positionOfMouse.x  ;
-        positionY_ = positionOfMouse.y;  
         nodeCircle_.setRadius(radius_);
+        positionX_ = positionOfMouse.x + radius_;
+        positionY_ = positionOfMouse.y + radius_;       
         nodeCircle_.setPosition(positionOfMouse.x, positionOfMouse.y);
         nodeCircle_.setFillColor(sf::Color::Black);
         isAble_ = true;    
@@ -50,7 +50,7 @@ public:
     }
     bool IsCollision(sf::Vector2i position)
     {
-        if (sqrt((position.x - positionX_) * (position.x - positionX_) + (position.y - positionY_) * (position.y - positionY_)) <= 2 * radius_ + 1)
+        if (sqrt((position.x - positionX_) * (position.x - positionX_) + (position.y - positionY_) * (position.y - positionY_)) <= radius_)
         {            
             return true;
         }
