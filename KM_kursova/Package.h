@@ -6,4 +6,4 @@ class Package {
 };
 
 #endif // !_PACKAGE_H_
-#pragma once
+

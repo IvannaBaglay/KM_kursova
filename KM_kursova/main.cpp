@@ -6,7 +6,7 @@
 #include "Channel.h"
 
 sf::CircleShape shape(100.f);
-static sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!", sf::Style::Fullscreen);
+static sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
@@ -23,6 +23,10 @@ void ClickKey(sf::Event& event)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
             CreateChannel(listOfChannel, listOfNode);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            DeleteSelectedNode(listOfChannel, listOfNode);
         }
         break;
     default:
@@ -62,11 +66,9 @@ void Draw()
     {
         window.draw(it->get_nodeCircle());
     }
-    /*
-    Node.Draw();
-    Channel.Draw();
-    Package.Draw();
-    */
+    
+    //Package.Draw();
+    
     
 }
 

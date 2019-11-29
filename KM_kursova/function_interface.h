@@ -10,6 +10,8 @@ void WorkEvent(sf::Event& event);
 void ClickMouseBottom(sf::Event& event);
 void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePosition);
 void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode);
+void DeleteSelectedNode(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode);
+void CollisonMouseAndChannel(std::vector <Channel*>& listOfChannel, sf::Vector2i mousePosition);
 
 #endif // !_FUNCTION_INTERFACE_H_
 #pragma once

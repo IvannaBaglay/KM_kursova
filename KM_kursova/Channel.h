@@ -15,15 +15,31 @@ public:
     }
     Channel(Node* node1, Node* node2)
     {
-        std::cout << "Constructor Channel\n";
+        std::cout << "Constructor Channel between \n";
         node1_ = node1;
         node2_ = node2;
+       
+        
+        std::cout << "node1 " << node1->get_index();
+        std::cout << " node2 " << node2->get_index();
+        std::cout << "input weight: ";
+        std::cin >> weight_;
+        std::cout << "input type 0-DUPLEX, 1-HALF_DUPLEX: ";
+        std::cin >> type_;
     }
     const unsigned int get_weight() const {
         return weight_;
     }
     const unsigned int get_type() const {
         return type_;
+    }
+    bool IsNodeInChannel(Node* node)
+    {
+        if (node->get_index() == node1_->get_index() || node->get_index() == node2_->get_index())
+        {
+            return true;
+        }
+        return false;
     }
     /*
     function for display info when we select channel with mouse

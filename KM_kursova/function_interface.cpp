@@ -11,6 +11,12 @@ void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePo
         }
     }
 }
+
+void CollisonMouseAndChannel(std::vector <Channel*> & listOfChannel, sf::Vector2i mousePosition)
+{
+
+}
+
 void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode) 
 {
     std::vector<Node*> listOfSelectNode;
@@ -44,4 +50,38 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
         }
     }
  
+}
+
+void DeleteSelectedNode(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode)
+{
+    std::vector<Node*> listOfUnselectedNode;
+    std::vector<Channel*> listOfSelectedChannel;
+    for (auto it:listOfNode)
+    {       
+        if (!it->get_isSelect())
+        {
+            listOfUnselectedNode.push_back(it);           
+        }  
+        else
+        {
+            for (auto itChannel : listOfChannel)
+            {
+                if (itChannel->IsNodeInChannel(it))
+                {
+                    listOfSelectedChannel.push_back(itChannel);
+                }
+            }
+        }
+    }
+    listOfNode = listOfUnselectedNode;
+    /*listOfChannel.erase(std::remove_if(listOfChannel.begin(), listOfChannel.end(), [&](Channel* channel)
+        {
+            if (std::find(listOfSelectedChannel.begin(), listOfSelectedChannel.end(), channel) != listOfSelectedChannel.end())
+            {
+                return true;
+            }
+            return false;
+        }
+    ));*/
+
 }
