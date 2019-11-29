@@ -1,5 +1,6 @@
 #include "function_interface.h"
 #include "Node.h"
+#include "Text.h"
 
 void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePosition)
 {
@@ -13,6 +14,11 @@ void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePo
 }
 
 void CollisonMouseAndChannel(std::vector <Channel*> & listOfChannel, sf::Vector2i mousePosition)
+{
+
+}
+
+int CollisonWithRectangle(std::vector<Text*>& listOfTextOfWeightChannel, sf::Vector2i mousePosition)
 {
 
 }
@@ -43,7 +49,7 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
                 }
                 if (!weHaveChannelBetweenNode)
                 {
-                    listOfChannel.push_back(new Channel(it1, it2));
+                    listOfChannel.push_back(new Channel(it1, it2, 0));
                 }
                 weHaveChannelBetweenNode = false;
             }

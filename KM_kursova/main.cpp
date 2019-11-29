@@ -13,7 +13,8 @@ static sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
-std::vector<Text*> listOfText;
+std::vector<Text*> listOfTextOfWeightChannel;
+std::vector<Text*> listOfTextOfTypeChannel;
 
 bool isVisibleText = false;
 
@@ -28,8 +29,9 @@ void ClickKey(sf::Event& event)
     case sf::Event::KeyPressed:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
-            CreateChannel(listOfChannel, listOfNode);
             isVisibleText = true;
+            CreateChannel(listOfChannel, listOfNode);
+            //isVisibleText = false;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
@@ -75,12 +77,18 @@ void Draw()
     }
     if (isVisibleText)
     {
-        for (auto it : listOfText)
+        for (auto it : listOfTextOfWeightChannel)
         {
 
             window.draw(it->get_rectangle());
             window.draw(it->get_text());
         }
+        for (auto it : listOfTextOfTypeChannel)
+        {
+            window.draw(it->get_rectangle());
+            window.draw(it->get_text());
+        }
+
     }
     //Package.Draw();
     
@@ -105,9 +113,23 @@ void WorkEvent(sf::Event& event)
 
 void InputText()
 {
-    listOfText.push_back(new Text("3", 10, 10));
-    listOfText.push_back(new Text("3", 110, 10));
-    listOfText.push_back(new Text("3", 210, 10));
+    std::string weightOfChannel[] = { "3","5","6","8","10","12","17","20","25",
+                                        "27", "29","30" };
+    int x = 10;
+    int y = 10;
+    for (auto it : weightOfChannel)
+    {
+        listOfTextOfWeightChannel.push_back(new Text(it, x, y));
+        y += 55;
+    }
+    std::string typeOfChannel[] = { "duplex", "half-duplex" };
+    x = 10 + 105;
+    y = 10;
+    for (auto it : typeOfChannel)
+    {
+        listOfTextOfTypeChannel.push_back(new Text(it, x, y));
+        y += 55;
+    }
 }
 
 int main()
