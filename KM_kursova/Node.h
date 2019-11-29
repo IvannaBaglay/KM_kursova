@@ -24,6 +24,16 @@ public:
         isAble_ = true;    
         isSelected_ = false;
         index_ = index++;
+
+        if (!font_.loadFromFile("LemonMilk.otf"))
+        {
+            std::cout << "ERROR\n";
+        }       
+        text_.setFont(font_);
+        text_.setString(std::to_string(index_));
+        text_.setCharacterSize(24);
+        text_.setFillColor(sf::Color::Green);
+        text_.setPosition(positionX_, positionY_);
     }
     bool IsAble()
     {
@@ -36,6 +46,7 @@ public:
     void Draw(sf::RenderWindow& window)
     {
         window.draw(nodeCircle_);
+        window.draw(text_);
     }
     const sf::CircleShape get_nodeCircle() const
     {
@@ -94,11 +105,14 @@ protected:
     sf::CircleShape nodeCircle_;
     float radius_ = 10;
     bool isSelected_;
+    sf::Text text_;
+    sf::Font font_;
 
     /*value for algorithm*/
     int lenght_;
     bool isAble_; // change on enum
     int index_;
+
     /*
     struct {
     int predecessor;
