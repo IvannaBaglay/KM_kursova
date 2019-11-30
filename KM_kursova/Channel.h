@@ -27,6 +27,16 @@ public:
         std::cin >> weight_;
         std::cout << "input type 0-DUPLEX, 1-HALF_DUPLEX: ";
         std::cin >> type_;
+
+        if (!font.loadFromFile("LemonMilk.otf"))
+        {
+            std::cout << "ERROR";
+        }
+        text.setFont(font);
+        text.setCharacterSize(10);
+        text.setFillColor(sf::Color::Black);
+        text.setString(std::to_string(weight_));
+        text.setPosition((node1_->get_position().x + node2_->get_position().x)/2, (node1_->get_position().y + node2_->get_position().y) / 2);
         
     }
     const unsigned int get_weight() const {
@@ -58,6 +68,10 @@ public:
         return line;
         /*draw line between node1 node2 (we have position)*/
     }
+    sf::Text get_text() const
+    {
+        return text;
+    }
     const int get_node1_index() const
     {
         return node1_->get_index();
@@ -84,9 +98,14 @@ public:
 protected:
 
 private:
+    // for algorithm
     Node* node1_,* node2_;
     int weight_;
     unsigned int type_;
+
+    //for draw
+    sf::Font font;
+    sf::Text text;
 };
 
 

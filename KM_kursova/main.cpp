@@ -5,16 +5,15 @@
 #include "Node.h"
 #include "Channel.h"
 #include "Text.h"
+#include "Algorithm.h"
 
-#define WEIGHT_RECTANGLE 100.0;
-
-sf::CircleShape shape(100.f);
-static sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
+static sf::RenderWindow window(sf::VideoMode(1920, 1080), "KM");
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
 std::vector<Text*> listOfTextOfWeightChannel;
 std::vector<Text*> listOfTextOfTypeChannel;
+Algorithm* algorithm;
 
 bool isVisibleText = false;
 
@@ -36,6 +35,10 @@ void ClickKey(sf::Event& event)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
             DeleteSelectedNode(listOfChannel, listOfNode);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            algorithm = new Algorithm();
         }
         break;
     default:
@@ -70,10 +73,12 @@ void Draw()
     for (auto it : listOfChannel)
     {
         window.draw(it->get_line(), 2, sf::Lines);
+        window.draw(it->get_text());
     }
     for (auto it : listOfNode)
     {
         window.draw(it->get_nodeCircle());
+        window.draw(it->get_text());
     }
     for (auto it : listOfTextOfWeightChannel)
     {
@@ -107,6 +112,18 @@ void WorkEvent(sf::Event& event)
     */
 }
 
+void MyTask()
+{
+    int x = 100;
+    int y = 200;
+    for (int i = 0; i < 10; i++)
+    {
+        listOfNode.push_back(new Node(sf::Vector2i(x, y)));
+        x += 100;
+    }
+
+}
+
 void InputText()
 {
     std::string weightOfChannel[] = { "3","5","6","8","10","12","17","20","25",
@@ -130,6 +147,8 @@ void InputText()
 
 int main()
 {  
+
+    //MyTask();
     InputText();
     while (window.isOpen())
     {
@@ -152,6 +171,7 @@ int main()
     {
         std::cout << it->get_index();
     }
+    std::cout << "\n";
     for (auto it : listOfChannel)
     {
         std::cout << it->get_node1_index();
