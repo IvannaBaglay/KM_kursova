@@ -15,6 +15,7 @@ public:
     }
     Channel(Node* node1, Node* node2, int x, int t = 0)
     {
+        color_ = sf::Color::Black;
         std::cout << "Constructor Channel between \n";
         node1_ = node1;
         node2_ = node2;
@@ -45,6 +46,10 @@ public:
         }
         return false;
     }
+    void set_Color(sf::Color color)
+    {
+        color_ = color;
+    }
     /*
     function for display info when we select channel with mouse
     */
@@ -55,8 +60,8 @@ public:
             sf::Vertex(sf::Vector2f(node1_->get_position())),
             sf::Vertex(sf::Vector2f(node2_->get_position())),
         };
-        line[0].color = sf::Color::Black;
-        line[1].color = sf::Color::Black;
+        line[0].color = color_;
+        line[1].color = color_;
         return line;
         /*draw line between node1 node2 (we have position)*/
     }
@@ -95,9 +100,11 @@ private:
     int weight_;
     unsigned int type_;
 
+
     //for draw
     sf::Font font;
     sf::Text text;
+    sf::Color color_;
 };
 
 

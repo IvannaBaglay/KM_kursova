@@ -16,7 +16,6 @@ std::vector<Text*> listOfTextOfWeightChannel;
 std::vector<Text*> listOfTextOfTypeChannel;
 Algorithm* algorithm;
 
-bool isVisibleText = false;
 bool WeMustChoseWeight = false;
 bool WeMustChoseType = false;
 
@@ -31,7 +30,7 @@ void ClickKey(sf::Event& event)
     case sf::Event::KeyPressed:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
-            isVisibleText = true;
+           
             WeMustChoseType = true;
             WeMustChoseWeight = true;
             CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());            
@@ -84,26 +83,25 @@ void Draw()
         window.draw(it->get_nodeCircle());
         window.draw(it->get_text());
     }
-    if (isVisibleText)
+    if (WeMustChoseWeight)
     {
-        if (WeMustChoseWeight)
+        for (auto it : listOfTextOfWeightChannel)
         {
-            for (auto it : listOfTextOfWeightChannel)
-            {
 
-                window.draw(it->get_rectangle());
-                window.draw(it->get_text());
-            }
-        }
-        if (WeMustChoseType)
-        {
-            for (auto it : listOfTextOfTypeChannel)
-            {
-                window.draw(it->get_rectangle());
-                window.draw(it->get_text());
-            }
+            window.draw(it->get_rectangle());
+            window.draw(it->get_text());
         }
     }
+    if (WeMustChoseType)
+    {
+        for (auto it : listOfTextOfTypeChannel)
+        {
+            window.draw(it->get_rectangle());
+            window.draw(it->get_text());
+        }
+    }
+        
+    
     
     //Package.Draw();
     
@@ -112,7 +110,7 @@ void Draw()
 
 void WorkEvent(sf::Event& event)
 {
-    if (!WeMustChoseWeight)
+    if (!WeMustChoseWeight && !WeMustChoseType)
     {
         ClickMouseBottom(event);
         ClickKey(event);
@@ -208,10 +206,19 @@ bool CollisonWithRectangle(int& value, std::vector<Text*>& listOfText, sf::Vecto
 void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode, std::vector<Text*>& listOfTextOfTypeChannel, std::vector<Text*>& listOfTextOfWeightChannel, sf::Vector2i mousePosition)
 {
 
-    int weightOfChannel = -1;
-    int typeOfChannel = -1;
+    static int weightOfChannel = -1;
+    static int typeOfChannel = -1;
     
-    if (CollisonWithRectangle(weightOfChannel, listOfTextOfWeightChannel, mousePosition, WeMustChoseWeight))
+    if (WeMustChoseWeight)
+    {
+        CollisonWithRectangle(weightOfChannel, listOfTextOfWeightChannel, mousePosition, WeMustChoseWeight);
+    }
+    if (WeMustChoseType)
+    {
+        CollisonWithRectangle(typeOfChannel, listOfTextOfTypeChannel, mousePosition, WeMustChoseType);
+    }
+
+    if (!WeMustChoseType && !WeMustChoseWeight)
     {
         std::cout << "2";
         std::vector<Node*> listOfSelectNode;
@@ -239,7 +246,7 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
                     if (!weHaveChannelBetweenNode)
                     {
                         listOfChannel.push_back(new Channel(it1, it2, weightOfChannel, typeOfChannel));
-                        isVisibleText = !isVisibleText;
+                       
                     }
                     weHaveChannelBetweenNode = false;
                 }
@@ -266,21 +273,23 @@ void DeleteSelectedNode(std::vector<Channel*>& listOfChannel, std::vector<Node*>
             {
                 if (itChannel->IsNodeInChannel(it))
                 {
+                    itChannel->set_Color(sf::Color(255, 0, 0));
                     listOfSelectedChannel.push_back(itChannel);
                 }
             }
         }
     }
     listOfNode = listOfUnselectedNode;
-    /*listOfChannel.erase(std::remove_if(listOfChannel.begin(), listOfChannel.end(), [&](Channel* channel)
+    listOfChannel.erase(std::remove_if(listOfChannel.begin(), listOfChannel.end(), [&](Channel* channel)
         {
             if (std::find(listOfSelectedChannel.begin(), listOfSelectedChannel.end(), channel) != listOfSelectedChannel.end())
             {
+                channel->set_Color(sf::Color::Green);
                 return true;
             }
             return false;
         }
-    ));*/
+    ), listOfChannel.end());
 
 }
 
