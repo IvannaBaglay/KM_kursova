@@ -5,14 +5,15 @@
 
 #include "global_value.h"
 
+#define INFINITY 100000
+
 static int index = 0;
 
 class Node {
-    enum enum_type { station, link };
 public:
     Node()
     {
-
+        index_ = -1;
     }
     Node(sf::Vector2i positionOfMouse) 
     {
@@ -21,11 +22,9 @@ public:
         positionY_ = positionOfMouse.y + radius_;       
         nodeCircle_.setPosition(positionOfMouse.x, positionOfMouse.y);
         nodeCircle_.setFillColor(sf::Color::Black);
-        isAble_ = true;    
         isSelected_ = false;
         isStation = false;
         index_ = index++;   
-
         if (!font.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR";
@@ -36,14 +35,10 @@ public:
         text.setString(std::to_string(index_));
         text.setPosition(positionOfMouse.x, positionOfMouse.y);
 
-    }
-    bool IsAble()
-    {
-        return isAble_;
-    }
-    enum_type Type()
-    {
-        return type_;
+        predecessor_ = -1;
+        lenght_ = INFINITY;
+        label_ = tentative;
+
     }
     void Draw(sf::RenderWindow& window)
     {
@@ -117,11 +112,34 @@ public:
 
     }
     */
+    void set_label(enumLabel label)
+    {
+        label_ = label;
+    }
+    void set_lenght(int lenght)
+    {
+        lenght_ = lenght;
+    }
+    enumLabel get_label()
+    {
+        return label_;
+    }
+    const int get_lenght() const
+    {
+        return lenght_;
+    }
+    void set_predecessor(int predecessor)
+    {
+        predecessor_ = predecessor;
+    }
+    const int get_predecessor() const
+    {
+        return predecessor_;
+    }
 private:
 
 protected:
     /*value for draw*/  
-    enum_type type_; 
     int positionX_;
     int positionY_;
     sf::CircleShape nodeCircle_;
@@ -129,12 +147,16 @@ protected:
     bool isSelected_;
     sf::Text text;
     sf::Font font;
-
-    /*value for algorithm*/
-    int lenght_;
-    bool isAble_; // change on enum
     int index_;
     bool isStation;
+
+    /*value for algorithm*/
+    int predecessor_;
+    int lenght_;
+    enumLabel label_;
+
+
+    
     /*
     struct {
     int predecessor;

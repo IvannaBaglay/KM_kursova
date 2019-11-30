@@ -45,7 +45,9 @@ void ClickKey(sf::Event& event)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            algorithm = new Algorithm();
+            algorithm = new Algorithm(listOfNode, listOfChannel);
+            std::cout << "START;\n";
+            algorithm->Start(listOfNode, listOfChannel);
         }
         break;
     default:
