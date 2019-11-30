@@ -23,17 +23,18 @@ public:
         nodeCircle_.setFillColor(sf::Color::Black);
         isAble_ = true;    
         isSelected_ = false;
-        index_ = index++;
+        index_ = index++;   
 
-        if (!font_.loadFromFile("LemonMilk.otf"))
+        if (!font.loadFromFile("LemonMilk.otf"))
         {
-            std::cout << "ERROR\n";
-        }       
-        text_.setFont(font_);
-        text_.setString(std::to_string(index_));
-        text_.setCharacterSize(24);
-        text_.setFillColor(sf::Color::Green);
-        text_.setPosition(positionX_, positionY_);
+            std::cout << "ERROR";
+        }
+        text.setFont(font);
+        text.setCharacterSize(10);
+        text.setFillColor(sf::Color::Yellow);
+        text.setString(std::to_string(index_));
+        text.setPosition(positionOfMouse.x, positionOfMouse.y);
+
     }
     bool IsAble()
     {
@@ -46,11 +47,15 @@ public:
     void Draw(sf::RenderWindow& window)
     {
         window.draw(nodeCircle_);
-        window.draw(text_);
+        window.draw(text);
     }
     const sf::CircleShape get_nodeCircle() const
     {
         return nodeCircle_;
+    }
+    const sf::Text get_text() const
+    {
+        return text;
     }
     const sf::Vector2i get_position() const
     {
@@ -105,8 +110,8 @@ protected:
     sf::CircleShape nodeCircle_;
     float radius_ = 10;
     bool isSelected_;
-    sf::Text text_;
-    sf::Font font_;
+    sf::Text text;
+    sf::Font font;
 
     /*value for algorithm*/
     int lenght_;
