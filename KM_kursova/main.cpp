@@ -46,7 +46,6 @@ void ClickKey(sf::Event& event)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
             algorithm = new Algorithm(listOfNode, listOfChannel);
-            std::cout << "START;\n";
             algorithm->Start(listOfNode, listOfChannel);
         }
         break;
@@ -84,13 +83,10 @@ void ClickMouseBottom(sf::Event& event)
     default:
         break;
     }
-
 }
 
 void Draw()
 {
-
-
     for (auto it : listOfChannel)
     {
         window.draw(it->get_line(), 2, sf::Lines);
@@ -117,13 +113,8 @@ void Draw()
             window.draw(it->get_rectangle());
             window.draw(it->get_text());
         }
-    }
-        
-    
-    
+    }   
     //Package.Draw();
-    
-    
 }
 
 void WorkEvent(sf::Event& event)
@@ -198,7 +189,7 @@ void CollisonMouseAndChannel(std::vector <Channel*>& listOfChannel, sf::Vector2i
 
 bool CollisonWithRectangle(int& value, std::vector<Text*>& listOfText, sf::Vector2i mousePosition, bool& isCollisionWithVectorOfRectangle)
 {
-    std::cout << "1";
+
     for (auto it : listOfText)
     {
         if (it->IsCollision(mousePosition))
@@ -228,7 +219,6 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
 
     if (!WeMustChoseType && !WeMustChoseWeight)
     {
-        std::cout << "2";
         std::vector<Node*> listOfSelectNode;
         for (auto it : listOfNode)
         {
@@ -340,22 +330,9 @@ int main()
                 window.close();
 
         }
-
         window.clear(sf::Color::White);
-        
         Draw();
         window.display();
-
-    }
-    for (auto it : listOfNode)
-    {
-        std::cout << it->get_index();
-    }
-    std::cout << "\n";
-    for (auto it : listOfChannel)
-    {
-        std::cout << it->get_node1_index();
-        std::cout << it->get_node2_index();
     }
 
     return 0;

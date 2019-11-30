@@ -44,7 +44,6 @@ public:
                 {
                     if (listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) < listOfNode[i]->get_lenght())
                     {
-                        std::cout << std::endl;
                         listOfNode[i]->set_predecessor(k);
                         listOfNode[i]->set_lenght(listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i)) ;
                     }

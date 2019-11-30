@@ -55,6 +55,14 @@ public:
     */
     sf::Vertex* get_line()
     {
+        if (type_ == 0)
+        {
+            color_ = sf::Color(0, 0, 255);
+        }
+        else
+        {
+            color_ = sf::Color(128, 128, 128);
+        }
         sf::Vertex line[] =
         {
             sf::Vertex(sf::Vector2f(node1_->get_position())),
