@@ -54,6 +54,10 @@ public:
         {
             return 1;
         }
+        else if (value == "random")
+        {
+            return 5;
+        }
         else
         {
             return atoi(value.c_str());

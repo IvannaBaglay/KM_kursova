@@ -39,6 +39,10 @@ void ClickKey(sf::Event& event)
         {
             DeleteSelectedNode(listOfChannel, listOfNode);
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            SelectedNodeInStation(listOfNode);
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
             algorithm = new Algorithm();
@@ -46,6 +50,18 @@ void ClickKey(sf::Event& event)
         break;
     default:
         break;
+    }
+}
+
+void SelectedNodeInStation(std::vector<Node*> listOfNode)
+{
+    for (auto it : listOfNode)
+    {
+        if (it->get_isSelect())
+        {
+            it->set_isStation(true);
+            it->set_isSelected();                 
+        }
     }
 }
 
@@ -122,16 +138,6 @@ void WorkEvent(sf::Event& event)
             CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());
         }
     }
-    /*
-    ClickMouse
-    Right botton on free place create new node linker 
-    Left botton on free place create new station
-    right click on node/station to select
-    
-    Keyboard
-    Click C when we have 2 select node create Channel 
-    and display menu for input weight of channel
-    */
 }
 
 void MyTask()
@@ -226,7 +232,9 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
         {
             if (it->get_isSelect())
             {
+                it->set_isSelected();
                 listOfSelectNode.push_back(it);
+                
             }
         }
         for (auto it1 : listOfSelectNode)
@@ -245,6 +253,7 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
                     }
                     if (!weHaveChannelBetweenNode)
                     {
+
                         listOfChannel.push_back(new Channel(it1, it2, weightOfChannel, typeOfChannel));
                        
                     }
@@ -296,7 +305,7 @@ void DeleteSelectedNode(std::vector<Channel*>& listOfChannel, std::vector<Node*>
 void InputText()
 {
     std::string weightOfChannel[] = { "3","5","6","8","10","12","17","20","25",
-                                        "27", "29","30" };
+                                        "27", "29","30", "random" };
     int x = 10;
     int y = 10;
     for (auto it : weightOfChannel)
@@ -317,7 +326,7 @@ void InputText()
 int main()
 {  
 
-    MyTask();
+    //MyTask();
     InputText();
     while (window.isOpen())
     {

@@ -23,6 +23,7 @@ public:
         nodeCircle_.setFillColor(sf::Color::Black);
         isAble_ = true;    
         isSelected_ = false;
+        isStation = false;
         index_ = index++;   
 
         if (!font.loadFromFile("LemonMilk.otf"))
@@ -74,16 +75,32 @@ public:
     }
     void set_isSelected()
     {
+        isSelected_ = !isSelected_;
         if (isSelected_)
         {
-            nodeCircle_.setFillColor(sf::Color::Black);
+            nodeCircle_.setFillColor(sf::Color::Green);
         }
         else
         {
-            nodeCircle_.setFillColor(sf::Color::Green);
+            if (isStation)
+            {
+                nodeCircle_.setFillColor(sf::Color::Blue);
+            }
+            else
+            {
+                nodeCircle_.setFillColor(sf::Color::Black);
+            }
             
         }
-        isSelected_ = !isSelected_;
+        
+    }
+    void set_isStation(bool state)
+    {
+        isStation = state;
+    }
+    const bool get_isStation() const
+    {
+        return isStation;
     }
     bool get_isSelect()
     {
@@ -117,7 +134,7 @@ protected:
     int lenght_;
     bool isAble_; // change on enum
     int index_;
-
+    bool isStation;
     /*
     struct {
     int predecessor;
