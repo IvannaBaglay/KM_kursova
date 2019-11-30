@@ -30,8 +30,8 @@ public:
             std::cout << "ERROR";
         }
         text.setFont(font);
-        text.setCharacterSize(10);
-        text.setFillColor(sf::Color::Yellow);
+        text.setCharacterSize(18);
+        text.setFillColor(sf::Color(225,0,0));
         text.setString(std::to_string(index_));
         text.setPosition(positionOfMouse.x, positionOfMouse.y);
 
@@ -66,7 +66,7 @@ public:
     }
     bool IsCollision(sf::Vector2i position)
     {
-        if (sqrt((position.x - positionX_) * (position.x - positionX_) + (position.y - positionY_) * (position.y - positionY_)) <= radius_)
+        if (sqrt((position.x - positionX_) * (position.x - positionX_) + (position.y - positionY_) * (position.y - positionY_)) <= 2*radius_)
         {            
             return true;
         }

@@ -36,12 +36,28 @@ public:
     }
     bool IsCollision(sf::Vector2i& position)
     {
-        if (positionX > position.x && positionX + lenghtOfRectangle < position.x
-            && positionY > position.y && positionY + weightOfRectangle < position.y)
+        if (positionX < position.x && positionX + lenghtOfRectangle > position.x
+            && positionY < position.y && positionY + weightOfRectangle > position.y)
         {
             return true;
         }
         return false;
+    }
+    int get_value() const
+    {
+        std::string value = text.getString();
+        if (value == "duplex" )
+        {
+            return 0;
+        }
+        else if (value == "half-duplex")
+        {
+            return 1;
+        }
+        else
+        {
+            return atoi(value.c_str());
+        }
     }
     /*return text*/
     /*return rectangle for draw in main*/

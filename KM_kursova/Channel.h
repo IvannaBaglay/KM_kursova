@@ -13,21 +13,13 @@ public:
     {
 
     }
-    Channel(Node* node1, Node* node2, int x)
+    Channel(Node* node1, Node* node2, int x, int t = 0)
     {
         std::cout << "Constructor Channel between \n";
         node1_ = node1;
         node2_ = node2;
-        //weight_ = x;
-        
-        
-        std::cout << "node1 " << node1->get_index();
-        std::cout << " node2 " << node2->get_index();
-        std::cout << "input weight: ";
-        std::cin >> weight_;
-        std::cout << "input type 0-DUPLEX, 1-HALF_DUPLEX: ";
-        std::cin >> type_;
-
+        weight_ = x;
+        type_ = t;
         if (!font.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR";

@@ -7,7 +7,8 @@
 #include "Text.h"
 #include "Algorithm.h"
 
-static sf::RenderWindow window(sf::VideoMode(1920, 1080), "KM");
+
+static sf::RenderWindow window(sf::VideoMode(1920, 1080), "KM", sf::Style::Fullscreen);
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
@@ -16,6 +17,8 @@ std::vector<Text*> listOfTextOfTypeChannel;
 Algorithm* algorithm;
 
 bool isVisibleText = false;
+bool WeMustChoseWeight = false;
+bool WeMustChoseType = false;
 
 void ClickKey(sf::Event& event)
 {
@@ -28,9 +31,10 @@ void ClickKey(sf::Event& event)
     case sf::Event::KeyPressed:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
-           
-            CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());
-            
+            isVisibleText = true;
+            WeMustChoseType = true;
+            WeMustChoseWeight = true;
+            CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());            
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
@@ -80,17 +84,27 @@ void Draw()
         window.draw(it->get_nodeCircle());
         window.draw(it->get_text());
     }
-    for (auto it : listOfTextOfWeightChannel)
+    if (isVisibleText)
     {
+        if (WeMustChoseWeight)
+        {
+            for (auto it : listOfTextOfWeightChannel)
+            {
 
-        window.draw(it->get_rectangle());
-        window.draw(it->get_text());
+                window.draw(it->get_rectangle());
+                window.draw(it->get_text());
+            }
+        }
+        if (WeMustChoseType)
+        {
+            for (auto it : listOfTextOfTypeChannel)
+            {
+                window.draw(it->get_rectangle());
+                window.draw(it->get_text());
+            }
+        }
     }
-    for (auto it : listOfTextOfTypeChannel)
-    {
-        window.draw(it->get_rectangle());
-        window.draw(it->get_text());
-    }
+    
     //Package.Draw();
     
     
@@ -98,8 +112,18 @@ void Draw()
 
 void WorkEvent(sf::Event& event)
 {
-    ClickMouseBottom(event);
-    ClickKey(event);
+    if (!WeMustChoseWeight)
+    {
+        ClickMouseBottom(event);
+        ClickKey(event);
+    }
+    else
+    {       
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());
+        }
+    }
     /*
     ClickMouse
     Right botton on free place create new node linker 
@@ -114,13 +138,149 @@ void WorkEvent(sf::Event& event)
 
 void MyTask()
 {
-    int x = 100;
+    int x = 500;
     int y = 200;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 3; i++)
     {
-        listOfNode.push_back(new Node(sf::Vector2i(x, y)));
-        x += 100;
+        x = 500;
+        for (int j = 0; j < 3; j++)
+        {
+            listOfNode.push_back(new Node(sf::Vector2i(x, y)));
+            x += 100;
+        }
+        y += 100;
+    }    
+    y = 200;
+    for (int i = 0; i < 3; i++)
+    {
+        x = 900;
+        for (int j = 0; j < 3; j++)
+        {
+            listOfNode.push_back(new Node(sf::Vector2i(x, y)));
+            x += 100;
+        }
+        y += 100;
     }
+    y = 600;
+    for (int i = 0; i < 3; i++)
+    {
+        x = 700;
+        for (int j = 0; j < 3; j++)
+        {
+            listOfNode.push_back(new Node(sf::Vector2i(x, y)));
+            x += 100;
+        }
+        y += 100;
+    }
+}
+
+void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePosition)
+{
+    for (auto it : listOfNode)
+    {
+        if (it->IsCollision(mousePosition))
+        {
+            it->set_isSelected();
+        }
+    }
+}
+
+void CollisonMouseAndChannel(std::vector <Channel*>& listOfChannel, sf::Vector2i mousePosition)
+{
+
+}
+
+bool CollisonWithRectangle(int& value, std::vector<Text*>& listOfText, sf::Vector2i mousePosition, bool& isCollisionWithVectorOfRectangle)
+{
+    std::cout << "1";
+    for (auto it : listOfText)
+    {
+        if (it->IsCollision(mousePosition))
+        {
+            value = it->get_value();
+            isCollisionWithVectorOfRectangle = false;
+            return true;
+        }
+    }
+    return false;
+}
+
+void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode, std::vector<Text*>& listOfTextOfTypeChannel, std::vector<Text*>& listOfTextOfWeightChannel, sf::Vector2i mousePosition)
+{
+
+    int weightOfChannel = -1;
+    int typeOfChannel = -1;
+    
+    if (CollisonWithRectangle(weightOfChannel, listOfTextOfWeightChannel, mousePosition, WeMustChoseWeight))
+    {
+        std::cout << "2";
+        std::vector<Node*> listOfSelectNode;
+        for (auto it : listOfNode)
+        {
+            if (it->get_isSelect())
+            {
+                listOfSelectNode.push_back(it);
+            }
+        }
+        for (auto it1 : listOfSelectNode)
+        {
+            for (auto it2 : listOfSelectNode)
+            {
+                if (it1 != it2)
+                {
+                    bool weHaveChannelBetweenNode = false;
+                    for (auto itChannel : listOfChannel)
+                    {
+                        if (itChannel->WeHaveChannelBetween(it1, it2))
+                        {
+                            weHaveChannelBetweenNode = true;
+                        }
+                    }
+                    if (!weHaveChannelBetweenNode)
+                    {
+                        listOfChannel.push_back(new Channel(it1, it2, weightOfChannel, typeOfChannel));
+                        isVisibleText = !isVisibleText;
+                    }
+                    weHaveChannelBetweenNode = false;
+                }
+            }
+        }
+
+    }
+   
+}
+
+void DeleteSelectedNode(std::vector<Channel*>& listOfChannel, std::vector<Node*>& listOfNode)
+{
+    std::vector<Node*> listOfUnselectedNode;
+    std::vector<Channel*> listOfSelectedChannel;
+    for (auto it : listOfNode)
+    {
+        if (!it->get_isSelect())
+        {
+            listOfUnselectedNode.push_back(it);
+        }
+        else
+        {
+            for (auto itChannel : listOfChannel)
+            {
+                if (itChannel->IsNodeInChannel(it))
+                {
+                    listOfSelectedChannel.push_back(itChannel);
+                }
+            }
+        }
+    }
+    listOfNode = listOfUnselectedNode;
+    /*listOfChannel.erase(std::remove_if(listOfChannel.begin(), listOfChannel.end(), [&](Channel* channel)
+        {
+            if (std::find(listOfSelectedChannel.begin(), listOfSelectedChannel.end(), channel) != listOfSelectedChannel.end())
+            {
+                return true;
+            }
+            return false;
+        }
+    ));*/
 
 }
 
@@ -148,7 +308,7 @@ void InputText()
 int main()
 {  
 
-    //MyTask();
+    MyTask();
     InputText();
     while (window.isOpen())
     {
