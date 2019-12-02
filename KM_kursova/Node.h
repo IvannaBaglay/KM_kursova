@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "global_value.h"
+#include "Text.h"
 
 #define INFINITY 100000
 
@@ -149,6 +150,10 @@ protected:
     sf::Font font;
     int index_;
     bool isStation;
+
+    /*Information about send*/
+    std::vector<Text*> information_;
+
 
     /*value for algorithm*/
     int predecessor_;
