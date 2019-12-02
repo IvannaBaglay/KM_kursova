@@ -29,7 +29,7 @@ public:
             ++currentIndex;
         }
     }
-    void Start(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel)
+    std::vector<Node*> Start(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel)
     {
        
         listOfNode[startNodeIdex]->set_lenght(0);
@@ -62,11 +62,14 @@ public:
             listOfNode[k]->set_label(permanent);
 
         } while (k != endNodeIndex);
+        std::vector<Node*> result = {};
         do 
         {
+            result.push_back(listOfNode[k]);
             listOfNode[k]->set_colorNode(sf::Color::Red);
             k = listOfNode[k]->get_predecessor();
         } while (k >= 0);
+        return result;
     }
     int GetLenghtBetweenNodes(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel, int indexNode1, int indexNode2)
     {
