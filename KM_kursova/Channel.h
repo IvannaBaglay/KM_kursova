@@ -108,6 +108,8 @@ private:
     int weight_;
     unsigned int type_;
 
+    //for send package
+    bool isUsed_;
 
     //for draw
     sf::Font font;
