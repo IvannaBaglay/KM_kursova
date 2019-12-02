@@ -6,7 +6,34 @@
 class Text
 {
 public:
-    Text(std::string string, float x, float y)
+    Text(std::string string, float x, float y, bool isInCentre)
+    {
+        if (!font.loadFromFile("LemonMilk.otf"))
+        {
+            std::cout << "ERROR\n";
+        }
+        positionX = x;
+        positionY = y;
+        text.setFont(font);
+        text.setString(string);
+        text.setCharacterSize(13);
+        text.setFillColor(sf::Color::Black);
+        if (isInCentre)
+        {
+            text.setPosition(positionX + lenghtOfRectangle / 2, positionY + weightOfRectangle / 2);
+        }
+        else
+        {
+            text.setPosition(positionX, positionY);
+        }
+       rectangle.setOutlineThickness(1.f);
+        rectangle.setOutlineColor(sf::Color::Black);
+        rectangle.setSize(sf::Vector2f(lenghtOfRectangle, weightOfRectangle + weightOfRectangle / 2));
+        rectangle.setFillColor(sf::Color(224, 224, 224));
+        rectangle.setPosition(positionX, positionY);
+        /*set color, text, rectangle*/
+    }
+    Text(std::string string, float x, float y, int sizeOfText, int weight, int lenght, sf::Color colorOfRegtangle, sf::Color ColorOfText)
     {
         if (!font.loadFromFile("LemonMilk.otf"))
         {
