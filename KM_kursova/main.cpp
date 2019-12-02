@@ -14,10 +14,12 @@ std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
 std::vector<Text*> listOfTextOfWeightChannel;
 std::vector<Text*> listOfTextOfTypeChannel;
+std::vector<Text*> listOfTextTypeMethod;
 Algorithm* algorithm;
 
 bool WeMustChoseWeight = false;
-bool WeMustChoseType = false;
+bool WeMustChoseTypeOfChannel = false;
+bool WeMustChoseTypeSend = false;
 
 void ClickKey(sf::Event& event)
 {
@@ -31,7 +33,7 @@ void ClickKey(sf::Event& event)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
            
-            WeMustChoseType = true;
+            WeMustChoseTypeOfChannel = true;
             WeMustChoseWeight = true;
             CreateChannel(listOfChannel, listOfNode, listOfTextOfTypeChannel, listOfTextOfWeightChannel, sf::Mouse::getPosition());            
         }
@@ -47,6 +49,10 @@ void ClickKey(sf::Event& event)
         {
             algorithm = new Algorithm(listOfNode, listOfChannel);
             algorithm->Start(listOfNode, listOfChannel);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+        {
+            WeMustChoseTypeSend = true;
         }
         break;
     default:
@@ -106,7 +112,7 @@ void Draw()
             window.draw(it->get_text());
         }
     }
-    if (WeMustChoseType)
+    if (WeMustChoseTypeOfChannel)
     {
         for (auto it : listOfTextOfTypeChannel)
         {
@@ -114,12 +120,20 @@ void Draw()
             window.draw(it->get_text());
         }
     }   
+    if (WeMustChoseTypeSend)
+    {
+        for (auto it : listOfTextTypeMethod)
+        {
+            window.draw(it->get_rectangle());
+            window.draw(it->get_text());
+        }
+    }
     //Package.Draw();
 }
 
 void WorkEvent(sf::Event& event)
 {
-    if (!WeMustChoseWeight && !WeMustChoseType)
+    if (!WeMustChoseWeight && !WeMustChoseTypeOfChannel)
     {
         ClickMouseBottom(event);
         ClickKey(event);
@@ -212,12 +226,12 @@ void CreateChannel(std::vector<Channel*>& listOfChannel, std::vector<Node*>& lis
     {
         CollisonWithRectangle(weightOfChannel, listOfTextOfWeightChannel, mousePosition, WeMustChoseWeight);
     }
-    if (WeMustChoseType)
+    if (WeMustChoseTypeOfChannel)
     {
-        CollisonWithRectangle(typeOfChannel, listOfTextOfTypeChannel, mousePosition, WeMustChoseType);
+        CollisonWithRectangle(typeOfChannel, listOfTextOfTypeChannel, mousePosition, WeMustChoseTypeOfChannel);
     }
 
-    if (!WeMustChoseType && !WeMustChoseWeight)
+    if (!WeMustChoseTypeOfChannel && !WeMustChoseWeight)
     {
         std::vector<Node*> listOfSelectNode;
         for (auto it : listOfNode)
@@ -302,7 +316,7 @@ void InputText()
     int y = 10;
     for (auto it : weightOfChannel)
     {
-        listOfTextOfWeightChannel.push_back(new Text(it, x, y));
+        listOfTextOfWeightChannel.push_back(new Text(it, x, y, true));
         y += 55;
     }
     std::string typeOfChannel[] = { "duplex", "half-duplex" };
@@ -310,7 +324,15 @@ void InputText()
     y = 10;
     for (auto it : typeOfChannel)
     {
-        listOfTextOfTypeChannel.push_back(new Text(it, x, y));
+        listOfTextOfTypeChannel.push_back(new Text(it, x, y, false));
+        y += 55;
+    }
+    std::string typeOfMethod[] = {"Datagram","Logic","Virtual"};
+    x = 10 + 2 * 105;
+    y = 10;
+    for (auto it : typeOfMethod)
+    {
+        listOfTextTypeMethod.push_back(new Text(it, x, y, false));
         y += 55;
     }
 }

@@ -153,6 +153,7 @@
     <ClInclude Include="global_value.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Package.h" />
+    <ClInclude Include="Send.h" />
     <ClInclude Include="Text.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
