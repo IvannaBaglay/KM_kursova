@@ -6,6 +6,8 @@
 #include "Channel.h"
 #include "Text.h"
 #include "Algorithm.h"
+#include "Package.h"
+#include "Send.h"
 
 
 static sf::RenderWindow window(sf::VideoMode(1920, 1080), "KM", sf::Style::Fullscreen);
@@ -19,9 +21,19 @@ std::vector<Text*> listOfTextTypeMethod;
 
 Algorithm* algorithm;
 
+Message* message;
+
 bool WeMustChoseWeight = false;
 bool WeMustChoseTypeOfChannel = false;
 bool WeMustChoseTypeSend = false;
+
+void DeleteLabel()
+{
+    for (auto it : listOfNode)
+    {
+        it->set_label(tentative);
+    }
+}
 
 void ClickKey(sf::Event& event)
 {
@@ -43,18 +55,28 @@ void ClickKey(sf::Event& event)
         {
             DeleteSelectedNode(listOfChannel, listOfNode);
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
         {
             SelectedNodeInStation(listOfNode);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            algorithm = new Algorithm(listOfNode, listOfChannel);
-            listOfPath.push_back( algorithm->Start(listOfNode, listOfChannel));           
-            // return path of packed
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+            message = new Message(1000, 100);
+            int numberOfPath = message->get_numberOfPackage();
+            std::cout << numberOfPath;
+            for (int i = 0; i < numberOfPath; i++)
+            {
+                algorithm = new Algorithm(listOfNode, listOfChannel);
+                listOfPath.push_back(algorithm->Start(listOfNode, listOfChannel));
+                DeleteLabel();
+            }
+            message->set_indexOfDestinationNode(algorithm->get_endNodeIndex());           
+        }        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
+            //Send send(message, listOfPath, Datagram);
+            //Send send1(message, listOfPath, Logic);
+            Send send2(message, listOfPath, Virtual);
             /*Create Message and add information in Node about path*/
             WeMustChoseTypeSend = true;
         }
@@ -63,6 +85,8 @@ void ClickKey(sf::Event& event)
         break;
     }
 }
+
+
 
 void SelectedNodeInStation(std::vector<Node*> listOfNode)
 {
@@ -359,6 +383,13 @@ int main()
         window.clear(sf::Color::White);
         Draw();
         window.display();
+    }
+
+    for (auto itNode : listOfNode)
+    {
+        std::cout << "\n";
+        itNode->Output();
+        std::cout << "\n";
     }
 
     return 0;

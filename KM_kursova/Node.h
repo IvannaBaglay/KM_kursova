@@ -138,6 +138,20 @@ public:
     {
         return predecessor_;
     }
+    void AddInformation(std::pair<std::string, std::string> information)
+    {
+        if (std::find(information_.begin(), information_.end(), information) == information_.end())
+        {
+            information_.push_back(information);
+        }
+    }
+    void Output()
+    {
+        for (auto it : information_)
+        {
+            std::cout << it.first << "\t" << it.second << std::endl;
+        }
+    }
 private:
 
 protected:

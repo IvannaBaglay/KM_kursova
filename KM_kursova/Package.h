@@ -46,8 +46,9 @@ private:
 
 class Message {
 public:
-    Message(int lenghtOfMessage, int sizeOfPackage, int indexOfDestinationNode)
+    Message(int lenghtOfMessage, int sizeOfPackage)
     {
+       
         lenghtOfMessage_ = lenghtOfMessage;
         if (lenghtOfMessage_ % sizeOfPackage)
         {
@@ -63,9 +64,31 @@ public:
             listOfPackage_.push_back(new Package(i, sizeOfPackage, ""));
         }
     }
+    void set_indexOfDestinationNode(int index)
+    {
+        indexOfDestinationNode_ = index;
+    }
+    const int get_numberOfPackage() const
+    {
+        return numberOfPackage_;
+    }
+
+    const int get_indexOfDestinationNode() const
+    {
+        return indexOfDestinationNode_;
+    }
+    
+    Package* &operator[](int index)
+    {
+        if (index < numberOfPackage_)
+        {
+            return listOfPackage_[index];
+        }
+    }
 protected:
 
 private:
+    int indexOfDestinationNode_;
     int lenghtOfMessage_;
     int numberOfPackage_;
     std::vector<Package*> listOfPackage_;

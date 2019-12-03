@@ -46,6 +46,7 @@ public:
                     {
                         listOfNode[i]->set_predecessor(k);
                         listOfNode[i]->set_lenght(listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i)) ;
+                        /*Added package in channel*/
                     }
                 }
             }
@@ -81,6 +82,10 @@ public:
             }
         }
         return 0;
+    }
+    const int get_endNodeIndex() const
+    {
+        return endNodeIndex;
     }
 protected:
 
