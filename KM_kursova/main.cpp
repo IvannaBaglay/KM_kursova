@@ -12,9 +12,11 @@ static sf::RenderWindow window(sf::VideoMode(1920, 1080), "KM", sf::Style::Fulls
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
+std::vector<std::vector<Node*>> listOfPath;
 std::vector<Text*> listOfTextOfWeightChannel;
 std::vector<Text*> listOfTextOfTypeChannel;
 std::vector<Text*> listOfTextTypeMethod;
+
 Algorithm* algorithm;
 
 bool WeMustChoseWeight = false;
@@ -48,10 +50,12 @@ void ClickKey(sf::Event& event)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
             algorithm = new Algorithm(listOfNode, listOfChannel);
-            algorithm->Start(listOfNode, listOfChannel);
+            listOfPath.push_back( algorithm->Start(listOfNode, listOfChannel));           
+            // return path of packed
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
         {
+            /*Create Message and add information in Node about path*/
             WeMustChoseTypeSend = true;
         }
         break;

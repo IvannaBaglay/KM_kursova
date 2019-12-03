@@ -109,7 +109,7 @@ private:
     unsigned int type_;
 
     //for send package
-    bool isUsed_;
+    int load;
 
     //for draw
     sf::Font font;
