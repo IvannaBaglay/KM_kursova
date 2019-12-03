@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+
 #include "global_value.h"
 #include "Text.h"
 
@@ -152,7 +153,8 @@ protected:
     bool isStation;
 
     /*Information about send*/
-    std::vector<Text*> information_;
+    std::vector<std::pair<std::string, std::string>> information_;
+    //std::vector<Text*> information_;
 
 
     /*value for algorithm*/
