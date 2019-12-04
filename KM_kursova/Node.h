@@ -25,17 +25,17 @@ public:
         nodeCircle_.setPosition(positionOfMouse.x, positionOfMouse.y);
         nodeCircle_.setFillColor(sf::Color::Black);
         isSelected_ = false;
-        isStation = false;
+        isStation_ = false;
         index_ = index++;   
-        if (!font.loadFromFile("LemonMilk.otf"))
+        if (!font_.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR";
         }
-        text.setFont(font);
-        text.setCharacterSize(18);
-        text.setFillColor(sf::Color(225,0,0));
-        text.setString(std::to_string(index_));
-        text.setPosition(positionOfMouse.x, positionOfMouse.y);
+        text_.setFont(font_);
+        text_.setCharacterSize(18);
+        text_.setFillColor(sf::Color(225,0,0));
+        text_.setString(std::to_string(index_));
+        text_.setPosition(positionOfMouse.x, positionOfMouse.y);
 
         predecessor_ = -1;
         lenght_ = INFINITY;
@@ -45,7 +45,7 @@ public:
     void Draw(sf::RenderWindow& window)
     {
         window.draw(nodeCircle_);
-        window.draw(text);
+        window.draw(text_);
     }
     const sf::CircleShape get_nodeCircle() const
     {
@@ -53,7 +53,7 @@ public:
     }
     const sf::Text get_text() const
     {
-        return text;
+        return text_;
     }
     const sf::Vector2i get_position() const
     {
@@ -79,7 +79,7 @@ public:
         }
         else
         {
-            if (isStation)
+            if (isStation_)
             {
                 nodeCircle_.setFillColor(sf::Color::Blue);
             }
@@ -93,11 +93,11 @@ public:
     }
     void set_isStation(bool state)
     {
-        isStation = state;
+        isStation_ = state;
     }
     const bool get_isStation() const
     {
-        return isStation;
+        return isStation_;
     }
     bool get_isSelect()
     {
@@ -161,10 +161,10 @@ protected:
     sf::CircleShape nodeCircle_;
     float radius_ = 10;
     bool isSelected_;
-    sf::Text text;
-    sf::Font font;
+    sf::Text text_;
+    sf::Font font_;
     int index_;
-    bool isStation;
+    bool isStation_;
 
     /*Information about send*/
     std::vector<std::pair<std::string, std::string>> information_;

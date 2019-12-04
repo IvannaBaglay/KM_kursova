@@ -10,19 +10,19 @@ class Algorithm {
 public:
     Algorithm(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel)
     {
-        numberOfGraph = listOfNode.size();
+        numberOfGraph_ = listOfNode.size();
         int currentIndex = 0;
         for (auto it : listOfNode)
         {
             if (it->get_isSelect())
             {
-                if (startNodeIdex == -1)
+                if (startNodeIdex_ == -1)
                 {
-                    startNodeIdex = currentIndex;
+                    startNodeIdex_ = currentIndex;
                 }
                 else
                 {
-                    endNodeIndex = currentIndex;
+                    endNodeIndex_ = currentIndex;
                 }
 
             }
@@ -32,13 +32,13 @@ public:
     std::vector<Node*> Start(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel)
     {
        
-        listOfNode[startNodeIdex]->set_lenght(0);
-        listOfNode[startNodeIdex]->set_label(permanent);
-        int k = startNodeIdex;
+        listOfNode[startNodeIdex_]->set_lenght(0);
+        listOfNode[startNodeIdex_]->set_label(permanent);
+        int k = startNodeIdex_;
         int min = -1;
         do
         {
-            for (int i = 0; i < numberOfGraph; i++)
+            for (int i = 0; i < numberOfGraph_; i++)
             {                            
                 if (GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) != 0 && listOfNode[i]->get_label() == tentative)
                 {
@@ -52,7 +52,7 @@ public:
             }
             k = 0;
             min = INFINITY;
-            for (int i = 0; i < numberOfGraph; i++)
+            for (int i = 0; i < numberOfGraph_; i++)
             {
                 if (listOfNode[i]->get_label() == tentative && listOfNode[i]->get_lenght() < min)
                 {
@@ -62,7 +62,7 @@ public:
             }
             listOfNode[k]->set_label(permanent);
 
-        } while (k != endNodeIndex);
+        } while (k != endNodeIndex_);
         std::vector<Node*> result = {};
         do 
         {
@@ -85,7 +85,7 @@ public:
     }
     const int get_endNodeIndex() const
     {
-        return endNodeIndex;
+        return endNodeIndex_;
     }
 protected:
 
@@ -97,9 +97,9 @@ protected:
         }
     */
 private:    
-    int numberOfGraph;
-    int startNodeIdex = -1;
-    int endNodeIndex = -1;
+    int numberOfGraph_;
+    int startNodeIdex_ = -1;
+    int endNodeIndex_ = -1;
     /*vector of struct we fill in constructor from channel and node */
     /*
     or we can add all paramets from struct into Node and working with vector of Node

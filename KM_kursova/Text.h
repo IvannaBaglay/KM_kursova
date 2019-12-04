@@ -8,23 +8,23 @@ class Text
 public:
     Text(std::string string, float x, float y, bool isInCentre)
     {
-        if (!font.loadFromFile("LemonMilk.otf"))
+        if (!font_.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR\n";
         }
         positionX = x;
         positionY = y;
-        text.setFont(font);
-        text.setString(string);
-        text.setCharacterSize(13);
-        text.setFillColor(sf::Color::Black);
+        text_.setFont(font_);
+        text_.setString(string);
+        text_.setCharacterSize(13);
+        text_.setFillColor(sf::Color::Black);
         if (isInCentre)
         {
-            text.setPosition(positionX + lenghtOfRectangle / 2, positionY + weightOfRectangle / 2);
+            text_.setPosition(positionX + lenghtOfRectangle / 2, positionY + weightOfRectangle / 2);
         }
         else
         {
-            text.setPosition(positionX, positionY);
+            text_.setPosition(positionX, positionY);
         }
        rectangle.setOutlineThickness(1.f);
         rectangle.setOutlineColor(sf::Color::Black);
@@ -35,17 +35,17 @@ public:
     }
     Text(std::string string, float x, float y, int sizeOfText, int weight, int lenght, sf::Color colorOfRegtangle, sf::Color ColorOfText)
     {
-        if (!font.loadFromFile("LemonMilk.otf"))
+        if (!font_.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR\n";
         }
         positionX = x;
         positionY = y;
-        text.setFont(font);
-        text.setString(string);
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color::Black);
-        text.setPosition(positionX + lenghtOfRectangle / 2, positionY + weightOfRectangle / 2);
+        text_.setFont(font_);
+        text_.setString(string);
+        text_.setCharacterSize(24);
+        text_.setFillColor(sf::Color::Black);
+        text_.setPosition(positionX + lenghtOfRectangle / 2, positionY + weightOfRectangle / 2);
         rectangle.setOutlineThickness(1.f);
         rectangle.setOutlineColor(sf::Color::Black);
         rectangle.setSize(sf::Vector2f(lenghtOfRectangle, weightOfRectangle));
@@ -55,7 +55,7 @@ public:
     }
     const sf::Text get_text() const
     {
-        return text;
+        return text_;
     }
     const sf::RectangleShape get_rectangle() const
     {
@@ -72,7 +72,7 @@ public:
     }
     int get_value() const
     {
-        std::string value = text.getString();
+        std::string value = text_.getString();
         if (value == "duplex" )
         {
             return 0;
@@ -96,8 +96,8 @@ public:
 protected:
 
 private:
-    sf::Font font;
-    sf::Text text;
+    sf::Font font_;
+    sf::Text text_;
     sf::RectangleShape rectangle;
     float weightOfRectangle = 50.0;
     float lenghtOfRectangle = 100.0;

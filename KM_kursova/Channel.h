@@ -21,15 +21,15 @@ public:
         node2_ = node2;
         weight_ = x;
         type_ = t;
-        if (!font.loadFromFile("LemonMilk.otf"))
+        if (!font_.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR";
         }
-        text.setFont(font);
-        text.setCharacterSize(10);
-        text.setFillColor(sf::Color::Black);
-        text.setString(std::to_string(weight_));
-        text.setPosition((node1_->get_position().x + node2_->get_position().x)/2, (node1_->get_position().y + node2_->get_position().y) / 2);
+        text_.setFont(font_);
+        text_.setCharacterSize(10);
+        text_.setFillColor(sf::Color::Black);
+        text_.setString(std::to_string(weight_));
+        text_.setPosition((node1_->get_position().x + node2_->get_position().x)/2, (node1_->get_position().y + node2_->get_position().y) / 2);
         
     }
     const unsigned int get_weight() const {
@@ -75,7 +75,7 @@ public:
     }
     sf::Text get_text() const
     {
-        return text;
+        return text_;
     }
     const int get_node1_index() const
     {
@@ -107,13 +107,12 @@ private:
     Node* node1_,* node2_;
     int weight_;
     unsigned int type_;
+    int load_;
 
-    //for send package
-    int load;
 
     //for draw
-    sf::Font font;
-    sf::Text text;
+    sf::Font font_;
+    sf::Text text_;
     sf::Color color_;
 };
 
