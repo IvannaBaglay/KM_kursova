@@ -119,21 +119,21 @@ public:
     {
         sf::Text TextAddedInformation;
         std::string string("200");
+        if (!font_.loadFromFile("LemonMilk.otf"))
+        {
+            std::cout << "ERROR";
+        }
         TextAddedInformation.setFont(font_);
         TextAddedInformation.setCharacterSize(18);
         TextAddedInformation.setFillColor(sf::Color::Black);
         TextAddedInformation.setPosition(positionX_, positionY_);
         if (haveAddedInformation_)
         {
+            std::cout << "1";
             for (auto it : information_)
             {
                 string = it.first + "\t" + it.second + "\n";
-            }
-            if (!font_.loadFromFile("LemonMilk.otf"))
-            {
-                std::cout << "ERROR";
-            }           
-                     
+            }          
         }
         TextAddedInformation.setString(string);
         std::cout << string;
@@ -142,7 +142,7 @@ public:
     }
     void set_haveAddedInformation(bool flag)
     {
-        haveAddedInformation_ = false;
+        haveAddedInformation_ = flag;
     }
     void set_label(enumLabel label)
     {
@@ -180,7 +180,7 @@ public:
         }
     }
     void Output()
-    {
+    {       
         for (auto it : information_)
         {
             std::cout << it.first << "\t" << it.second << std::endl;
