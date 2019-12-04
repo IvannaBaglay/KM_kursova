@@ -36,6 +36,7 @@ public:
             auto currentListOfPath = listOfPath[i];
             for (auto itNode : currentListOfPath)
             {
+                itNode->set_haveAddedInformation(true);
                 std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(itNode->get_predecessor()));
                 itNode->AddInformation(pair);
             }
@@ -55,6 +56,7 @@ public:
             auto currentListOfPath = listOfPath[i];
             for (auto itNode : currentListOfPath)
             {
+                itNode->set_haveAddedInformation(true);
                 std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(itNode->get_predecessor()));
                 itNode->AddInformation(pair);
             }
@@ -81,6 +83,7 @@ public:
         {
             for (auto itPath : it->first)
             {
+                itPath->set_haveAddedInformation(true);
                 std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(i));
                 itPath->AddInformation(pair);
             }

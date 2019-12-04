@@ -130,6 +130,7 @@ void Draw()
     {
         window.draw(it->get_nodeCircle());
         window.draw(it->get_text());
+        window.draw(it->get_addedInformation());
     }
     if (WeMustChoseWeight)
     {

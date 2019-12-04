@@ -26,6 +26,7 @@ public:
         nodeCircle_.setFillColor(sf::Color::Black);
         isSelected_ = false;
         isStation_ = false;
+        haveAddedInformation_ = false;
         index_ = index++;   
         if (!font_.loadFromFile("LemonMilk.otf"))
         {
@@ -114,6 +115,35 @@ public:
 
     }
     */
+    sf::Text get_addedInformation()
+    {
+        sf::Text TextAddedInformation;
+        std::string string("200");
+        TextAddedInformation.setFont(font_);
+        TextAddedInformation.setCharacterSize(18);
+        TextAddedInformation.setFillColor(sf::Color::Black);
+        TextAddedInformation.setPosition(positionX_, positionY_);
+        if (haveAddedInformation_)
+        {
+            for (auto it : information_)
+            {
+                string = it.first + "\t" + it.second + "\n";
+            }
+            if (!font_.loadFromFile("LemonMilk.otf"))
+            {
+                std::cout << "ERROR";
+            }           
+                     
+        }
+        TextAddedInformation.setString(string);
+        std::cout << string;
+        std::cout << "\n\n\n";
+        return TextAddedInformation;
+    }
+    void set_haveAddedInformation(bool flag)
+    {
+        haveAddedInformation_ = false;
+    }
     void set_label(enumLabel label)
     {
         label_ = label;
@@ -125,6 +155,10 @@ public:
     enumLabel get_label()
     {
         return label_;
+    }
+    const bool get_haveAddedInformation() const
+    {
+        return haveAddedInformation_;
     }
     const int get_lenght() const
     {
@@ -167,6 +201,7 @@ protected:
     bool isStation_;
 
     /*Information about send*/
+    bool haveAddedInformation_;
     std::vector<std::pair<std::string, std::string>> information_;
     //std::vector<Text*> information_;
 
