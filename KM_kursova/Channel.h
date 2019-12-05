@@ -15,6 +15,7 @@ public:
     }
     Channel(Node* node1, Node* node2, int x, int t = 0)
     {
+        load_ = 0;
         color_ = sf::Color::Black;
         std::cout << "Constructor Channel between \n";
         node1_ = node1;
@@ -73,6 +74,7 @@ public:
         return line;
         /*draw line between node1 node2 (we have position)*/
     }
+    
     sf::Text get_text() const
     {
         return text_;
@@ -84,6 +86,18 @@ public:
     const int get_node2_index() const
     {
         return node2_->get_index();
+    }
+    const int get_load() const
+    {
+        return load_;
+    }
+    void set_load(int value) 
+    {
+        load_ = value;
+    }
+    void AddLoad()
+    {
+        load_++;
     }
     bool WeHaveChannelBetween(Node* node1, Node* node2)
     {

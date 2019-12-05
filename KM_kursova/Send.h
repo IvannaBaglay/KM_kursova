@@ -36,10 +36,12 @@ public:
             auto currentListOfPath = listOfPath[i];
             for (auto itNode : currentListOfPath)
             {
+                std::cout << itNode->get_index();
                 itNode->set_haveAddedInformation(true);
                 std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(itNode->get_predecessor()));
                 itNode->AddInformation(pair);
             }
+            std::cout << "\n";
         }
         /*added information in text*/
     }
@@ -56,10 +58,12 @@ public:
             auto currentListOfPath = listOfPath[i];
             for (auto itNode : currentListOfPath)
             {
+                std::cout << itNode->get_index();
                 itNode->set_haveAddedInformation(true);
                 std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(itNode->get_predecessor()));
                 itNode->AddInformation(pair);
             }
+            std::cout << "\n";
         }
     }
     void VirtualSend(Message* message, std::vector<std::vector<Node*>>& listOfPath)
@@ -83,10 +87,12 @@ public:
         {
             for (auto itPath : it->first)
             {
+                std::cout << itPath->get_index();
                 itPath->set_haveAddedInformation(true);
                 std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(i));
                 itPath->AddInformation(pair);
             }
+            std::cout << "\n";
             i++;
         }
     }

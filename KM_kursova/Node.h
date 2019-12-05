@@ -27,8 +27,10 @@ public:
         nodeCircle_.setFillColor(sf::Color::Black);
         isSelected_ = false;
         isStation_ = false;
+        isUsingInAlgorithm_ = false;
         haveAddedInformation_ = false;
-        index_ = index++;   
+        load_ = 0;
+        index_ = index++;
         if (!font_.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR";
@@ -92,6 +94,14 @@ public:
         }
         
     }
+    void set_isUsingInAlgorithm(bool flag)
+    {
+        isUsingInAlgorithm_ = flag;
+    }
+    const bool get_isUsingInAlgorithm() const
+    {
+        return isUsingInAlgorithm_;
+    }
     void set_isStation(bool state)
     {
         isStation_ = state;
@@ -129,7 +139,6 @@ public:
         TextAddedInformation.setPosition(positionX_, PositionYForText);
         if (haveAddedInformation_)
         {
-            std::cout << "1";
             for (auto it : information_)
             {
                 string += it.first + "\t" + it.second + "\n";
@@ -137,8 +146,6 @@ public:
             
         }
         TextAddedInformation.setString(string);
-        std::cout << string;
-        std::cout << "\n\n\n";
         return TextAddedInformation;
     }
     void set_haveAddedInformation(bool flag)
@@ -187,6 +194,18 @@ public:
             std::cout << it.first << "\t" << it.second << std::endl;
         }
     }
+    const int get_load() const
+    {
+        return load_;
+    }
+    void set_load(int value)
+    {
+        load_ = value;
+    }
+    void AddLoad()
+    {
+        load_++;
+    }
 private:
 
 protected:
@@ -200,6 +219,7 @@ protected:
     sf::Font font_;
     int index_;
     bool isStation_;
+    bool isUsingInAlgorithm_;
     int PositionYForText;
     /*Information about send*/
     bool haveAddedInformation_;
@@ -211,6 +231,7 @@ protected:
     int predecessor_;
     int lenght_;
     enumLabel label_;
+    int load_;
 
 
     

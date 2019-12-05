@@ -35,7 +35,9 @@ void DeleteLabel()
     for (auto it : listOfNode)
     {
         it->set_label(tentative);
-        //it->set_predecessor(-1);
+        it->set_lenght(INFINITY);
+        it->set_predecessor(-1);
+        it->set_isUsingInAlgorithm(false);
         if (it->get_isSelect())
         {
             it->set_isSelected();
@@ -90,16 +92,13 @@ void ClickKey(sf::Event& event)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            std::cout << indexOfStartNode;
-            std::cout << indexOfEndNode;
             message = new Message(1000, 100);
             int numberOfPath = message->get_numberOfPackage();
-            std::cout << numberOfPath;
             for (int i = 0; i < numberOfPath; i++)
             {
+                DeleteLabel();
                 algorithm = new Algorithm(listOfNode, listOfChannel, indexOfStartNode, indexOfEndNode);
                 listOfPath.push_back(algorithm->Start(listOfNode, listOfChannel));
-                DeleteLabel();
             }
             message->set_indexOfDestinationNode(listOfNode[indexOfEndNode]->get_index());
         }        
