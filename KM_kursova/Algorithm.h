@@ -8,68 +8,66 @@
 
 class Algorithm {
 public:
-    Algorithm(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel)
+    Algorithm(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel,int  indexOfEndNode, int indexOfStartNode)
     {
         numberOfGraph_ = listOfNode.size();
-        int currentIndex = 0;
-        for (auto it : listOfNode)
+        startNodeIdex_ = indexOfStartNode;
+        endNodeIndex_ = indexOfEndNode;
+        if (startNodeIdex_ == -1 || endNodeIndex_ == -1)
         {
-            if (it->get_isSelect())
-            {
-                if (startNodeIdex_ == -1)
-                {
-                    startNodeIdex_ = currentIndex;
-                }
-                else
-                {
-                    endNodeIndex_ = currentIndex;
-                }
-
-            }
-            ++currentIndex;
+            std::cout << "ERROR\n";
+            WeCanFindAlgorithm = false;
+        }
+        else
+        {
+            WeCanFindAlgorithm = true;
         }
     }
     std::vector<Node*> Start(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel)
     {
-       
-        listOfNode[startNodeIdex_]->set_lenght(0);
-        listOfNode[startNodeIdex_]->set_label(permanent);
-        int k = startNodeIdex_;
-        int min = -1;
-        do
+        std::vector<Node*> result = {};
+
+        if (WeCanFindAlgorithm)
         {
-            for (int i = 0; i < numberOfGraph_; i++)
-            {                            
-                if (GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) != 0 && listOfNode[i]->get_label() == tentative)
+            listOfNode[startNodeIdex_]->set_lenght(0);
+            listOfNode[startNodeIdex_]->set_label(permanent);
+            int k = startNodeIdex_;
+            int min = -1;
+            do
+            {
+                for (int i = 0; i < numberOfGraph_; i++)
                 {
-                    if (listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) < listOfNode[i]->get_lenght())
+                    if (GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) != 0 && listOfNode[i]->get_label() == tentative)
                     {
-                        listOfNode[i]->set_predecessor(k);
-                        listOfNode[i]->set_lenght(listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i)) ;
-                        /*Added package in channel*/
+                        if (listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) < listOfNode[i]->get_lenght())
+                        {
+                            listOfNode[i]->set_predecessor(k);
+                            listOfNode[i]->set_lenght(listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i));
+                            /*Added package in channel*/
+                        }
                     }
                 }
-            }
-            k = 0;
-            min = INFINITY;
-            for (int i = 0; i < numberOfGraph_; i++)
-            {
-                if (listOfNode[i]->get_label() == tentative && listOfNode[i]->get_lenght() < min)
+                k = 0;
+                min = INFINITY;
+                for (int i = 0; i < numberOfGraph_; i++)
                 {
-                    min = listOfNode[i]->get_lenght();
-                    k = i;
+                    if (listOfNode[i]->get_label() == tentative && listOfNode[i]->get_lenght() < min)
+                    {
+                        min = listOfNode[i]->get_lenght();
+                        k = i;
+                    }
                 }
-            }
-            listOfNode[k]->set_label(permanent);
+                listOfNode[k]->set_label(permanent);
 
-        } while (k != endNodeIndex_);
-        std::vector<Node*> result = {};
-        do 
-        {
-            result.push_back(listOfNode[k]);
-            listOfNode[k]->set_colorNode(sf::Color::Red);
-            k = listOfNode[k]->get_predecessor();
-        } while (k >= 0);
+            } while (k != endNodeIndex_);
+
+            do
+            {
+                result.push_back(listOfNode[k]);
+                listOfNode[k]->set_colorNode(sf::Color::Red);
+                k = listOfNode[k]->get_predecessor();
+            } while (k >= 0);
+        }
         return result;
     }
     int GetLenghtBetweenNodes(std::vector<Node*>& listOfNode, std::vector<Channel*>& listOfChannel, int indexNode1, int indexNode2)
@@ -100,6 +98,7 @@ private:
     int numberOfGraph_;
     int startNodeIdex_ = -1;
     int endNodeIndex_ = -1;
+    bool WeCanFindAlgorithm;
     /*vector of struct we fill in constructor from channel and node */
     /*
     or we can add all paramets from struct into Node and working with vector of Node

@@ -27,11 +27,32 @@ bool WeMustChoseWeight = false;
 bool WeMustChoseTypeOfChannel = false;
 bool WeMustChoseTypeSend = false;
 
+int indexOfEndNode = -1;
+int indexOfStartNode = -1;
+
 void DeleteLabel()
 {
     for (auto it : listOfNode)
     {
         it->set_label(tentative);
+        //it->set_predecessor(-1);
+        if (it->get_isSelect())
+        {
+            it->set_isSelected();
+        }
+    }
+}
+
+void FindSelectNode(int& value)
+{
+    int i = 0;
+    for (auto it : listOfNode)
+    {
+        if (it->get_isSelect())
+        {
+            value = i;
+        }
+        i++;
     }
 }
 
@@ -59,26 +80,37 @@ void ClickKey(sf::Event& event)
         {
             SelectedNodeInStation(listOfNode);
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+        {           
+            FindSelectNode(indexOfStartNode);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+        {
+            FindSelectNode(indexOfEndNode);
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
+            std::cout << indexOfStartNode;
+            std::cout << indexOfEndNode;
             message = new Message(1000, 100);
             int numberOfPath = message->get_numberOfPackage();
             std::cout << numberOfPath;
             for (int i = 0; i < numberOfPath; i++)
             {
-                algorithm = new Algorithm(listOfNode, listOfChannel);
+                algorithm = new Algorithm(listOfNode, listOfChannel, indexOfStartNode, indexOfEndNode);
                 listOfPath.push_back(algorithm->Start(listOfNode, listOfChannel));
                 DeleteLabel();
             }
-            message->set_indexOfDestinationNode(algorithm->get_endNodeIndex());           
+            message->set_indexOfDestinationNode(listOfNode[indexOfEndNode]->get_index());
         }        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            //Send send(message, listOfPath, Datagram);
+            Send send(message, listOfPath, Datagram);
             //Send send1(message, listOfPath, Logic);
-            Send send2(message, listOfPath, Virtual);
+            //Send send2(message, listOfPath, Virtual);
             /*Create Message and add information in Node about path*/
             WeMustChoseTypeSend = true;
+            listOfPath.clear();
         }
         break;
     default:
@@ -384,13 +416,6 @@ int main()
         window.clear(sf::Color::White);
         Draw();
         window.display();
-    }
-
-    for (auto itNode : listOfNode)
-    {
-        std::cout << "\n";
-        itNode->Output();
-        std::cout << "\n";
     }
 
     return 0;

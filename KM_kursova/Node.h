@@ -21,7 +21,8 @@ public:
     {
         nodeCircle_.setRadius(radius_);
         positionX_ = positionOfMouse.x + radius_;
-        positionY_ = positionOfMouse.y + radius_;       
+        positionY_ = positionOfMouse.y + radius_;    
+        PositionYForText = positionY_;
         nodeCircle_.setPosition(positionOfMouse.x, positionOfMouse.y);
         nodeCircle_.setFillColor(sf::Color::Black);
         isSelected_ = false;
@@ -87,8 +88,7 @@ public:
             else
             {
                 nodeCircle_.setFillColor(sf::Color::Black);
-            }
-            
+            }          
         }
         
     }
@@ -118,7 +118,7 @@ public:
     sf::Text get_addedInformation()
     {
         sf::Text TextAddedInformation;
-        std::string string("200");
+        std::string string("");
         if (!font_.loadFromFile("LemonMilk.otf"))
         {
             std::cout << "ERROR";
@@ -126,14 +126,15 @@ public:
         TextAddedInformation.setFont(font_);
         TextAddedInformation.setCharacterSize(18);
         TextAddedInformation.setFillColor(sf::Color::Black);
-        TextAddedInformation.setPosition(positionX_, positionY_);
+        TextAddedInformation.setPosition(positionX_, PositionYForText);
         if (haveAddedInformation_)
         {
             std::cout << "1";
             for (auto it : information_)
             {
-                string = it.first + "\t" + it.second + "\n";
+                string += it.first + "\t" + it.second + "\n";
             }          
+            
         }
         TextAddedInformation.setString(string);
         std::cout << string;
@@ -199,7 +200,7 @@ protected:
     sf::Font font_;
     int index_;
     bool isStation_;
-
+    int PositionYForText;
     /*Information about send*/
     bool haveAddedInformation_;
     std::vector<std::pair<std::string, std::string>> information_;

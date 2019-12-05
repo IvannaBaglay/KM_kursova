@@ -74,7 +74,7 @@ public:
         {
             for (auto itNode : it->second)
             {
-                (*message)[itNode]->set_addedInformation((std::to_string(message->get_indexOfDestinationNode()), std::to_string(i)));
+                (*message)[itNode]->set_addedInformation(std::to_string(i));
             }
             i++;
         }
