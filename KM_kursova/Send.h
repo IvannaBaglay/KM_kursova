@@ -8,9 +8,15 @@
 class Send
 {
 public:
-    Send() {}
-    Send(Message* message, std::vector<std::vector<Node*>>& listOfPath, enumTypeOfSend typeOfSend)
+    Send() { numberOfVirtualChannel = 0; }
+    void SendPackage(Package* message, std::vector<Node*>& listOfPath, enumTypeOfSend typeOfSend)
     {
+       
+        std::cout << "\n\nPath: ";
+        for (auto it : listOfPath)
+        {
+            std::cout << it->get_index();
+        }
         typeOfSend_ = typeOfSend;
         switch (typeOfSend_)
         {
@@ -24,102 +30,64 @@ public:
             break;
         }
     }
-    void DatagramSend(Message* message, std::vector<std::vector<Node*>>& listOfPath)
-    {
-        int numberOfMessage = message->get_numberOfPackage();
-        for (int i = 0; i < numberOfMessage; i++)
+    void DatagramSend(Package* message, std::vector<Node*>& listOfPath)
+    {    
+        message->set_addedInformation(std::to_string(message->get_nodeDestination())); // end Node          
+        for (auto itNode : listOfPath)
         {
-            (*message)[i]->set_addedInformation(std::to_string(message->get_indexOfDestinationNode()));
-        }
-        for (int i = 0; i < numberOfMessage; i++)
-        {
-            auto currentListOfPath = listOfPath[i];
-            for (auto itNode : currentListOfPath)
-            {
-                std::cout << itNode->get_index();
-                itNode->set_haveAddedInformation(true);
-                std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(itNode->get_predecessor()));
-                itNode->AddInformation(pair);
-            }
-            std::cout << "\n";
+           itNode->set_haveAddedInformation(true);
+            std::pair<std::string, std::string> pair(message->get_addedInformation(), std::to_string(itNode->get_predecessor()));
+            itNode->AddInformation(pair);
         }
         /*added information in text*/
     }
-    void LogicSend(Message* message, std::vector<std::vector<Node*>>& listOfPath)
+    void LogicSend(Package* message, std::vector<Node*>& listOfPath)
     {
-        int numberOfMessage = message->get_numberOfPackage();
-        for (int i = 0; i < numberOfMessage; i++)
+        message->set_addedInformation(std::to_string(message->get_nodeDestination())); // end Node          
+
+        for (auto itNode : listOfPath)
         {
-            (*message)[i]->set_addedInformation(std::to_string(message->get_indexOfDestinationNode()));
-        }
-        /**/
-        for (int i = 0; i < numberOfMessage; i++)
-        {
-            auto currentListOfPath = listOfPath[i];
-            for (auto itNode : currentListOfPath)
-            {
-                std::cout << itNode->get_index();
-                itNode->set_haveAddedInformation(true);
-                std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(itNode->get_predecessor()));
-                itNode->AddInformation(pair);
-            }
-            std::cout << "\n";
+            itNode->set_haveAddedInformation(true);
+            std::pair<std::string, std::string> pair(message->get_addedInformation(), std::to_string(itNode->get_predecessor()));
+            itNode->AddInformation(pair);
         }
     }
-    void VirtualSend(Message* message, std::vector<std::vector<Node*>>& listOfPath)
+    void VirtualSend(Package* message, std::vector<Node*>& listOfPath)
     {
-        /*ôóíêö³ÿ */
-        auto virtualChannel = FindVirtualChannel(listOfPath);
-
-
-        int numberOfMessage = message->get_numberOfPackage();
-        int i = 0;
-        for (auto it = virtualChannel.begin(); it != virtualChannel.end(); it++)
+        message->set_addedInformation(std::to_string(message->get_nodeDestination())); // end Node 
+        
+        int index = FindVirtualNode(listOfPath);
+        if (index == -1)
         {
-            for (auto itNode : it->second)
-            {
-                (*message)[itNode]->set_addedInformation(std::to_string(i));
-            }
-            i++;
+            listNodeInVirtualChannel.push_back(listOfPath);
+            index = numberOfVirtualChannel++;
         }
-        i = 0;
-        for (auto it = virtualChannel.begin(); it != virtualChannel.end(); it++)
+        for (auto itPath :listOfPath)
         {
-            for (auto itPath : it->first)
-            {
-                std::cout << itPath->get_index();
-                itPath->set_haveAddedInformation(true);
-                std::pair<std::string, std::string> pair(std::to_string(message->get_indexOfDestinationNode()), std::to_string(i));
-                itPath->AddInformation(pair);
-            }
-            std::cout << "\n";
-            i++;
+            std::cout << itPath->get_index();
+            itPath->set_haveAddedInformation(true);
+            std::pair<std::string, std::string> pair(message->get_addedInformation(), std::to_string(index));
+            itPath->AddInformation(pair);
         }
     }
-    std::map<std::vector<Node*>, std::vector<int>> FindVirtualChannel(std::vector<std::vector<Node*>>& listOfPath)
+    int FindVirtualNode(std::vector<Node*>& listOfPath)
     {
-        std::map<std::vector<Node*>, std::vector<int>> mapOfVirtualVector;
         int i = 0;
-        int j = 0;
-        for (auto it1 : listOfPath)
+        for (auto it : listNodeInVirtualChannel)
         {
-            mapOfVirtualVector[it1].push_back(i);
-            i++;
-        }
-        for (auto it = mapOfVirtualVector.begin(); it != mapOfVirtualVector.end(); it++)
-        {
-            for (auto itNode : it->second)
+            if (it == listOfPath)
             {
-                std::cout << itNode << "\t";
+                return i;
             }
-            std::cout << std::endl;
             i++;
         }
-        return mapOfVirtualVector;
+        return -1;
     }
 protected:
 
 private:
+    int numberOfVirtualChannel;
+    std::vector< std::vector<Node*>> listNodeInVirtualChannel;
     enumTypeOfSend typeOfSend_;
 };
 

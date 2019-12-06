@@ -23,6 +23,8 @@ Algorithm* algorithm;
 
 Message* message;
 
+Send send;
+
 bool WeMustChoseWeight = false;
 bool WeMustChoseTypeOfChannel = false;
 bool WeMustChoseTypeSend = false;
@@ -92,19 +94,23 @@ void ClickKey(sf::Event& event)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            message = new Message(1000, 100);
+            message = new Message(1000, 100, indexOfEndNode);
+
+            //Package *p = (*message)[0];
             int numberOfPath = message->get_numberOfPackage();
             for (int i = 0; i < numberOfPath; i++)
-            {
-                DeleteLabel();
+            {    
+                Package *p = (*message)[i];
                 algorithm = new Algorithm(listOfNode, listOfChannel, indexOfStartNode, indexOfEndNode);
-                listOfPath.push_back(algorithm->Start(listOfNode, listOfChannel));
+                std::vector<Node*> path = algorithm->Start(listOfNode, listOfChannel);
+                send.SendPackage(p, path, Virtual);
+                DeleteLabel();
             }
             message->set_indexOfDestinationNode(listOfNode[indexOfEndNode]->get_index());
         }        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            Send send(message, listOfPath, Datagram);
+            //Send send(message, listOfPath, Datagram);
             //Send send1(message, listOfPath, Logic);
             //Send send2(message, listOfPath, Virtual);
             /*Create Message and add information in Node about path*/
@@ -416,6 +422,7 @@ int main()
         Draw();
         window.display();
     }
+
 
     return 0;
 }

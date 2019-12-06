@@ -206,6 +206,14 @@ public:
     {
         load_++;
     }
+
+    bool operator==(Node node)
+    {
+        if (this->index_ == node.index_)
+            return true;
+        return false;
+    }
+
 private:
 
 protected:

@@ -6,8 +6,9 @@
 class Package {
 public:
     Package(){}
-    Package(int index,  int size, std::string addedInformation)
+    Package(int index,  int size, int nodeDestination, std::string addedInformation)
     {
+        nodeDestination_ = nodeDestination;
         index_ = index;
         addedInformation_ = addedInformation;
         sizeOfPackage_ = size;
@@ -33,10 +34,15 @@ public:
     {
         return sizeOfAddedInformation_;
     }
+    const int get_nodeDestination() const 
+    {
+        return nodeDestination_;
+    }
 
 protected:
 
 private:
+    int nodeDestination_;
     int index_;
     int sizeOfPackage_;
     int sizeOfAddedInformation_;
@@ -46,9 +52,9 @@ private:
 
 class Message {
 public:
-    Message(int lenghtOfMessage, int sizeOfPackage)
+    Message(int lenghtOfMessage, int sizeOfPackage, int nodeDestination)
     {
-       
+        indexOfDestinationNode_ = nodeDestination;
         lenghtOfMessage_ = lenghtOfMessage;
         if (lenghtOfMessage_ % sizeOfPackage)
         {
@@ -61,7 +67,7 @@ public:
         for (int i = 1; i <= numberOfPackage_; i++)
         {
             
-            listOfPackage_.push_back(new Package(i, sizeOfPackage, ""));
+            listOfPackage_.push_back(new Package(i, sizeOfPackage, indexOfDestinationNode_ ,""));
         }
     }
     void set_indexOfDestinationNode(int index)
