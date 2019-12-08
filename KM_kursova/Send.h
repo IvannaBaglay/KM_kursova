@@ -5,6 +5,8 @@
 #include "Package.h"
 #include "Channel.h"
 
+#define Mb 8*1000000
+
 class Send
 {
 public:
@@ -82,6 +84,27 @@ public:
             i++;
         }
         return -1;
+    }
+    void SendMessage(Message* message,std::vector<Node*>& listOfNode)
+    {
+        int time = 0;
+
+        int numberOfPackage = message->get_numberOfPackage();
+        for (int j = 0; j < numberOfPackage; j++)
+        {
+            int destinationNode = (*message)[j]->get_nodeDestination();
+            std::cout << "\ndestinationNode " << destinationNode;
+            std::cout << listOfNode[destinationNode]->get_lenght();
+            time += ((listOfNode[destinationNode]->get_lenght() * (*message)[j]->get_sizeOfPackage())/1000);
+            
+        }
+
+        if (typeOfSend_ == Logic)
+        {
+            time *= 2;
+        }
+
+        std::cout << "\n time: " << time;
     }
 protected:
 

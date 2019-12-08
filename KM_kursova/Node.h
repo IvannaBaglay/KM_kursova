@@ -213,7 +213,10 @@ public:
             return true;
         return false;
     }
-
+    std::vector<std::pair<std::string, std::string>> get_addedInformationPair()
+    {
+        return information_;
+    }
 private:
 
 protected:

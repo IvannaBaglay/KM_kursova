@@ -97,16 +97,19 @@ void ClickKey(sf::Event& event)
             message = new Message(1000, 100, indexOfEndNode);
 
             //Package *p = (*message)[0];
+            Package* p;
             int numberOfPath = message->get_numberOfPackage();
             for (int i = 0; i < numberOfPath; i++)
             {    
-                Package *p = (*message)[i];
+                DeleteLabel();
+                p = (*message)[i];
                 algorithm = new Algorithm(listOfNode, listOfChannel, indexOfStartNode, indexOfEndNode);
                 std::vector<Node*> path = algorithm->Start(listOfNode, listOfChannel);
-                send.SendPackage(p, path, Virtual);
-                DeleteLabel();
+                send.SendPackage(p, path, Datagram);                
+               
             }
-            message->set_indexOfDestinationNode(listOfNode[indexOfEndNode]->get_index());
+            send.SendMessage(message, listOfNode);
+            message->set_indexOfDestinationNode(listOfNode[indexOfStartNode]->get_index());
         }        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {

@@ -30,6 +30,10 @@ public:
     {
         return sizeOfPackage_;
     }
+    void AddSizeInpackage(int size)
+    {
+        sizeOfPackage_ += size;
+    }
     const int get_sizeOfAddedInformation() const 
     {
         return sizeOfAddedInformation_;

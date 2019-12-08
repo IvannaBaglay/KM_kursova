@@ -42,7 +42,7 @@ public:
             int loadOfChannel = 0;
             int numberOfUsingNode = 0;
 
-            do
+            /*do
             {
                 for (int i = 0; i < numberOfGraph_; i++)
                 {
@@ -62,18 +62,19 @@ public:
                 }
                 std::cout << " load Channel: " << loadOfChannel;
                 loadOfChannel++;
-            } while (numberOfUsingNode == 0);
+            } while (numberOfUsingNode == 0);*/
 
             for (int i = 0; i < numberOfGraph_; i++)
             {
                 if (GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) != 0 && listOfNode[i]->get_label() == tentative)
                 {
                     std::cout << "\n|N\n";
-                    if (listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) < listOfNode[i]->get_lenght())
+                    if ( listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i) < listOfNode[i]->get_lenght())
                     {
                         std::cout << " Set i: " << i;
                         listOfNode[i]->set_predecessor(k);
                         listOfNode[i]->set_lenght(listOfNode[k]->get_lenght() + GetLenghtBetweenNodes(listOfNode, listOfChannel, k, i));
+                        std::cout << "\nlenght " << listOfNode[i]->get_lenght() << std::endl;
                         /*Added package in channel*/
                     }
                 }
@@ -84,7 +85,7 @@ public:
             min = INFINITY;
             for (int i = 0; i < numberOfGraph_; i++)
             {
-                if (listOfNode[i]->get_isUsingInAlgorithm() &&  listOfNode[i]->get_label() == tentative && listOfNode[i]->get_lenght() < min)
+                if (listOfNode[i]->get_label() == tentative && listOfNode[i]->get_lenght() < min)
                 {
                     int load = getIndexOfChannel(listOfNode, listOfChannel, i, k);
                     if (load != -1)
