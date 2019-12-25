@@ -12,6 +12,7 @@ public:
         index_ = index;
         addedInformation_ = addedInformation;
         sizeOfPackage_ = size;
+        sizeOfAddedInformation_ = 0;
         /*Added function for added Information*/
     }
     const int get_index() const
@@ -41,6 +42,10 @@ public:
     const int get_nodeDestination() const 
     {
         return nodeDestination_;
+    }
+    void set_sizeOfAddedInformation(int size)
+    {
+        sizeOfAddedInformation_ = size;
     }
 
 protected:

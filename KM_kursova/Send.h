@@ -34,6 +34,7 @@ public:
     }
     void DatagramSend(Package* message, std::vector<Node*>& listOfPath)
     {    
+        message->set_sizeOfAddedInformation(32/8);
         message->set_addedInformation(std::to_string(message->get_nodeDestination())); // end Node          
         for (auto itNode : listOfPath)
         {
@@ -45,6 +46,7 @@ public:
     }
     void LogicSend(Package* message, std::vector<Node*>& listOfPath)
     {
+        message->set_sizeOfAddedInformation(32/8);
         message->set_addedInformation(std::to_string(message->get_nodeDestination())); // end Node          
 
         for (auto itNode : listOfPath)
@@ -56,6 +58,7 @@ public:
     }
     void VirtualSend(Package* message, std::vector<Node*>& listOfPath)
     {
+        message->set_sizeOfAddedInformation(3); // 20/8
         message->set_addedInformation(std::to_string(message->get_nodeDestination())); // end Node 
         
         int index = FindVirtualNode(listOfPath);
@@ -85,26 +88,48 @@ public:
         }
         return -1;
     }
-    void SendMessage(Message* message,std::vector<Node*>& listOfNode)
+    void SendMessage(Message* message,std::vector<Node*>& listOfNode, int indexOfEndNode, int numberOfNodeInPath)
     {
-        int time = 0;
-
+        float time = 0;
+        int sizeOfAddedInformation = 0;
+        int sizeOfInfoInformation = 0;
+        int numberOfServesPackage = 0;
         int numberOfPackage = message->get_numberOfPackage();
         for (int j = 0; j < numberOfPackage; j++)
         {
-            int destinationNode = (*message)[j]->get_nodeDestination();
-            std::cout << "\ndestinationNode " << destinationNode;
-            std::cout << listOfNode[destinationNode]->get_lenght();
-            time += ((listOfNode[destinationNode]->get_lenght() * (*message)[j]->get_sizeOfPackage())/1000);
-            
+            //int destinationNode = (*message)[j]->get_nodeDestination();
+            time += ((listOfNode[indexOfEndNode]->get_lenght() * (*message)[j]->get_sizeOfPackage()));
+            sizeOfAddedInformation += (*message)[j]->get_sizeOfAddedInformation();
+            sizeOfInfoInformation += (*message)[j]->get_sizeOfPackage();
+        }
+        std::cout << "\n\n size : " << numberOfNodeInPath;
+        if (typeOfSend_ == Datagram)
+        {
+            numberOfServesPackage = numberOfNodeInPath * numberOfPackage;
+            sizeOfAddedInformation += numberOfServesPackage * 4;
+            time += listOfNode[indexOfEndNode]->get_lenght() * sizeOfAddedInformation + numberOfNodeInPath * 0.4;
+        }
+
+        if (typeOfSend_ == Virtual)
+        {
+            numberOfServesPackage += 4 + numberOfNodeInPath * numberOfPackage;
+            sizeOfAddedInformation += numberOfServesPackage * 4;
+            time += listOfNode[indexOfEndNode]->get_lenght() * sizeOfAddedInformation + numberOfNodeInPath * 0.2;
         }
 
         if (typeOfSend_ == Logic)
         {
-            time *= 2;
-        }
+            numberOfServesPackage += (3 * numberOfNodeInPath) * numberOfPackage;
+            sizeOfAddedInformation += numberOfServesPackage * 4;
+            time += listOfNode[indexOfEndNode]->get_lenght() * sizeOfAddedInformation + numberOfNodeInPath * 0.2;
+        
 
-        std::cout << "\n time: " << time;
+        }
+        std::cout << "\n number of serve package: " << numberOfServesPackage;
+        std::cout << "\n number of info package: " << numberOfPackage;
+        std::cout << "\n size of package: " << sizeOfInfoInformation;
+        std::cout << "\n size of added information: " << sizeOfAddedInformation;
+        std::cout << "\n time: " << time / 1000 ;
     }
 protected:
 

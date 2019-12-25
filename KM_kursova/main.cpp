@@ -14,7 +14,7 @@ static sf::RenderWindow window(sf::VideoMode(1920, 1080), "KM", sf::Style::Fulls
 
 std::vector<Node*> listOfNode;
 std::vector<Channel*> listOfChannel;
-std::vector<std::vector<Node*>> listOfPath;
+std::vector<Node*> listOfPath;
 std::vector<Text*> listOfTextOfWeightChannel;
 std::vector<Text*> listOfTextOfTypeChannel;
 std::vector<Text*> listOfTextTypeMethod;
@@ -94,7 +94,7 @@ void ClickKey(sf::Event& event)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            message = new Message(1000, 100, indexOfEndNode);
+            message = new Message(5000, 1024, indexOfEndNode);
 
             //Package *p = (*message)[0];
             Package* p;
@@ -104,19 +104,16 @@ void ClickKey(sf::Event& event)
                 DeleteLabel();
                 p = (*message)[i];
                 algorithm = new Algorithm(listOfNode, listOfChannel, indexOfStartNode, indexOfEndNode);
-                std::vector<Node*> path = algorithm->Start(listOfNode, listOfChannel);
-                send.SendPackage(p, path, Datagram);                
+                listOfPath = algorithm->Start(listOfNode, listOfChannel);
+                send.SendPackage(p, listOfPath, Datagram);
                
             }
-            send.SendMessage(message, listOfNode);
             message->set_indexOfDestinationNode(listOfNode[indexOfStartNode]->get_index());
+            send.SendMessage(message, listOfNode, indexOfStartNode, listOfPath.size());
+            
         }        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-            //Send send(message, listOfPath, Datagram);
-            //Send send1(message, listOfPath, Logic);
-            //Send send2(message, listOfPath, Virtual);
-            /*Create Message and add information in Node about path*/
+        {          
             WeMustChoseTypeSend = true;
             listOfPath.clear();
         }
@@ -216,6 +213,53 @@ void WorkEvent(sf::Event& event)
     }
 }
 
+void MyTaskCreateChannel()
+{
+    listOfChannel.push_back(new Channel(listOfNode[0], listOfNode[1], 20));
+    listOfChannel.push_back(new Channel(listOfNode[1], listOfNode[3], 3));
+    listOfChannel.push_back(new Channel(listOfNode[3], listOfNode[6], 10));
+    listOfChannel.push_back(new Channel(listOfNode[3], listOfNode[7], 12));
+    listOfChannel.push_back(new Channel(listOfNode[3], listOfNode[4], 30));
+    listOfChannel.push_back(new Channel(listOfNode[4], listOfNode[2], 8));
+    listOfChannel.push_back(new Channel(listOfNode[4], listOfNode[8], 17));
+    listOfChannel.push_back(new Channel(listOfNode[4], listOfNode[5], 27));
+    listOfChannel.push_back(new Channel(listOfNode[1], listOfNode[2], 12));
+    listOfChannel.push_back(new Channel(listOfNode[1], listOfNode[4], 30));
+    listOfChannel.push_back(new Channel(listOfNode[3], listOfNode[0], 8));
+    listOfChannel.push_back(new Channel(listOfNode[7], listOfNode[8], 17));
+    listOfChannel.push_back(new Channel(listOfNode[2], listOfNode[5], 27));
+
+    listOfChannel.push_back(new Channel(listOfNode[9], listOfNode[10], 20));
+    listOfChannel.push_back(new Channel(listOfNode[10], listOfNode[14], 3));
+    listOfChannel.push_back(new Channel(listOfNode[12], listOfNode[16], 10));
+    listOfChannel.push_back(new Channel(listOfNode[11], listOfNode[14], 12));
+    listOfChannel.push_back(new Channel(listOfNode[11], listOfNode[10], 30));
+    listOfChannel.push_back(new Channel(listOfNode[13], listOfNode[14], 8));
+    listOfChannel.push_back(new Channel(listOfNode[12], listOfNode[17], 17));
+    listOfChannel.push_back(new Channel(listOfNode[17], listOfNode[16], 27));
+    listOfChannel.push_back(new Channel(listOfNode[12], listOfNode[15], 30));
+    listOfChannel.push_back(new Channel(listOfNode[12], listOfNode[10], 8));
+    listOfChannel.push_back(new Channel(listOfNode[13], listOfNode[17], 17));
+    listOfChannel.push_back(new Channel(listOfNode[17], listOfNode[14], 27));
+    listOfChannel.push_back(new Channel(listOfNode[12], listOfNode[13], 6));
+
+    listOfChannel.push_back(new Channel(listOfNode[18], listOfNode[19], 20));
+    listOfChannel.push_back(new Channel(listOfNode[22], listOfNode[23], 3));
+    listOfChannel.push_back(new Channel(listOfNode[26], listOfNode[23], 10));
+    listOfChannel.push_back(new Channel(listOfNode[25], listOfNode[22], 12));
+    listOfChannel.push_back(new Channel(listOfNode[24], listOfNode[22], 30));
+    listOfChannel.push_back(new Channel(listOfNode[20], listOfNode[19], 8));
+    listOfChannel.push_back(new Channel(listOfNode[20], listOfNode[23], 17));
+    listOfChannel.push_back(new Channel(listOfNode[18], listOfNode[21], 27));
+    listOfChannel.push_back(new Channel(listOfNode[22], listOfNode[26], 30));
+    listOfChannel.push_back(new Channel(listOfNode[22], listOfNode[18], 17));
+    listOfChannel.push_back(new Channel(listOfNode[21], listOfNode[20], 3));
+    listOfChannel.push_back(new Channel(listOfNode[21], listOfNode[24], 5));
+
+    listOfChannel.push_back(new Channel(listOfNode[5], listOfNode[12], 3));
+    listOfChannel.push_back(new Channel(listOfNode[18], listOfNode[15], 5));
+}
+
 void MyTask()
 {
     int x = 500;
@@ -252,6 +296,7 @@ void MyTask()
         }
         y += 100;
     }
+    MyTaskCreateChannel();
 }
 
 void CollisionMouseAndNodes(std::vector<Node*>& listOfNode, sf::Vector2i mousePosition)
@@ -409,8 +454,10 @@ void InputText()
 int main()
 {  
 
-    //MyTask();
+    MyTask();
     InputText();
+
+
     while (window.isOpen())
     {
         sf::Event event;
